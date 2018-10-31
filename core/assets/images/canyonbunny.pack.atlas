@@ -1,61 +1,55 @@
 
 canyonbunny.pack.png
-size: 1024,1024
+size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 mountainBackground
   rotate: false
-  xy: 616, 681
-  size: 338, 318
-  orig: 338, 318
+  xy: 2, 244
+  size: 700, 225
+  orig: 700, 225
   offset: 0, 0
   index: -1
 present
   rotate: false
-  xy: 2, 2
-  size: 258, 195
-  orig: 258, 195
+  xy: 704, 264
+  size: 65, 48
+  orig: 65, 48
   offset: 0, 0
   index: -1
 santa
   rotate: false
-  xy: 2, 199
-  size: 612, 800
-  orig: 612, 800
+  xy: 704, 314
+  size: 142, 155
+  orig: 142, 155
   offset: 0, 0
   index: -1
 snowPlatform1
   rotate: false
-  xy: 262, 142
-  size: 117, 55
-  orig: 117, 55
+  xy: 848, 113
+  size: 47, 356
+  orig: 47, 356
   offset: 0, 0
   index: -1
 snowPlatform2
   rotate: false
-  xy: 616, 356
-  size: 70, 90
-  orig: 70, 90
+  xy: 2, 2
+  size: 65, 240
+  orig: 65, 240
+  offset: 0, 0
+  index: -1
+snowflake
+  rotate: false
+  xy: 69, 132
+  size: 110, 110
+  orig: 110, 110
   offset: 0, 0
   index: -1
 snowman
   rotate: false
-  xy: 616, 448
-  size: 218, 231
-  orig: 218, 231
-  offset: 0, 0
-  index: -1
-
-canyonbunny.pack2.png
-size: 1024,1024
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-snowflake
-  rotate: false
-  xy: 2, 2
-  size: 600, 532
-  orig: 600, 532
+  xy: 897, 378
+  size: 86, 91
+  orig: 86, 91
   offset: 0, 0
   index: -1

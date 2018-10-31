@@ -10,7 +10,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
+import com.packtpub.libgdx.canyonbunny.util.Assets;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
 public class WorldController extends InputAdapter implements Disposable
 	{
@@ -36,9 +39,9 @@ public class WorldController extends InputAdapter implements Disposable
 		 */
 		private void init () 
 		{ 
-			initTestObjects();
 			Gdx.input.setInputProcessor(this);
 			cameraHelper = new CameraHelper();
+			initTestObjects();
 		}
 		
 		//Testing object and sprites
@@ -46,29 +49,44 @@ public class WorldController extends InputAdapter implements Disposable
 		{
 			// Create new array for 5 sprites
 			testSprites = new Sprite[5];
-			// Create empty POT-sized Pixmap with 8 bit RGBA pixel data
+			
+			// Create empty POT-sized Pixmap w/ 8 bit RGBA pixel data
 			int width = 32;
 			int height = 32;
 			Pixmap pixmap = createProceduralPixmap(width, height);
-			// Create a new texture from pixmap data
+			
+			 //Create a new texture from pixmap data
 			Texture texture = new Texture(pixmap);
-			// Create new sprites using the just created texture
-			for (int i = 0; i < testSprites.length; i++) {
-			Sprite spr = new Sprite(texture);
-			// Define sprite size to be 1m x 1m in game world
-			spr.setSize(1, 1);
-			// Set origin to sprite's center
-			spr.setOrigin(spr.getWidth() / 2.0f, spr.getHeight() / 2.0f);
-			// Calculate random position for sprite
-			float randomX = MathUtils.random(-2.0f, 2.0f);
-			float randomY = MathUtils.random(-2.0f, 2.0f);
-			spr.setPosition(randomX, randomY);
-			// Put new sprite into array
-			testSprites[i] = spr;
+			
+			// Create a list of texture regions
+			Array<TextureRegion> regions = new Array<TextureRegion>();
+			regions.add(Assets.instance.santa.body);
+			regions.add(Assets.instance.snowflake.flake);
+			regions.add(Assets.instance.present.gift);
+			
+			// Create new sprites using a random texture region
+			for (int i = 0; i < testSprites.length; i++) 
+			{
+				Sprite spr = new Sprite(regions.random());
+				
+				// Define sprite size to be 1m x 1m in game world
+				spr.setSize(1, 1);
+				
+				// Set origin to sprite's center
+				spr.setOrigin(spr.getWidth() / 2.0f,spr.getHeight() / 2.0f);
+				
+				// Calculate random position for sprite
+				float randomX = MathUtils.random(-2.0f, 2.0f);
+				float randomY = MathUtils.random(-2.0f, 2.0f);
+				spr.setPosition(randomX, randomY);
+				
+				// Put new sprite into array
+				testSprites[i] = spr;
 			}
-			// Set first sprite as selected one
-			selectedSprite = 0;
+				// Set first sprite as selected one
+				selectedSprite = 0;
 		}
+		
 		
 		//Setting pixamp and coloring and drawing rectangle
 		private Pixmap createProceduralPixmap (int width, int height)

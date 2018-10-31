@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
-import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -19,6 +18,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.packtpub.libgdx.canyonbunny.util.Constants;
+
 
 /**
  * Assets class for all the images
@@ -28,12 +29,7 @@ public class Assets implements Disposable, AssetErrorListener
 	
 	public static final String TAG = Assets.class.getName();
 	public static final Assets instance = new Assets();
-	public AssetSanta santa;
-	public AssetPlatform platform;
-	public AssetSnowflake snowflake;
-	public AssetPresent present;
-	public AssetLevelDecoration levelDecoration;
-	
+
 	private AssetManager assetManager;
 	
 	// singleton: prevent instantiation from other classes
@@ -42,6 +38,12 @@ public class Assets implements Disposable, AssetErrorListener
 		
 	}
 	
+	
+	public AssetSanta santa;
+	public AssetPlatform platform;
+	public AssetSnowflake snowflake;
+	public AssetPresent present;
+	public AssetLevelDecoration levelDecoration;
 	//initializing assets
 	public void init (AssetManager assetManager)
 	{
@@ -57,9 +59,12 @@ public class Assets implements Disposable, AssetErrorListener
 		+ assetManager.getAssetNames().size);
 		for (String a : assetManager.getAssetNames())
 		Gdx.app.debug(TAG, "asset: " + a);
+	
+		
 		
 		TextureAtlas atlas =
 				assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
+		
 				// enable texture filtering for pixel smoothing
 				for (Texture t : atlas.getTextures()) 
 				{
@@ -72,6 +77,8 @@ public class Assets implements Disposable, AssetErrorListener
 				present = new AssetPresent(atlas);
 				levelDecoration = new AssetLevelDecoration(atlas);
 	}
+	
+
 	
 	//free memory
 	@Override
@@ -140,11 +147,10 @@ public class Assets implements Disposable, AssetErrorListener
 	
 	public class AssetLevelDecoration 
 	{
-		public final AtlasRegion mountain;
+		public final AtlasRegion mountainBackground;
 		public AssetLevelDecoration (TextureAtlas atlas) 
 		{
-
-			mountain = atlas.findRegion("mountainBackground");
+			mountainBackground = atlas.findRegion("mountainBackground");
 		}
 	}
 	

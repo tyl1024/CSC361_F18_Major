@@ -48,7 +48,7 @@ public class WorldRenderer implements Disposable
 			sprite.draw(batch);
 		}
 		batch.end();
-		}
+	}
 	
 	/*
 	 * Whenever the screen size is changed, including

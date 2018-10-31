@@ -1,14 +1,15 @@
 package com.packtpub.libgdx.canyonbunny.util;
 /*  Tyler Major
  *  pg 113 
- *  10/30/2018
+ *  9/7/2018
  *  
- /
-
-
+ *  new code added 9/13 from pg162
+ *  
+ *  Edited by Owen Burnham for Assignment 4
+ */
 /**
- * @author Tyler Major copied from Chapter 3 to set up viewport width
- * and height
+ * Holds variables that will always hold the same
+ * value
  */
 public class Constants 
 {
@@ -18,7 +19,13 @@ public class Constants
 	// Visible game world is 5 meters tall
 	public static final float VIEWPORT_HEIGHT = 5.0f;
 	
-	public static final String TEXTURE_ATLAS_OBJECTS =
-			"images/canyonbunny.pack";
+	// GUI Width
+	public static final float VIEWPORT_GUI_WIDTH = 800.0f;
+	
+	// GUI Height
+	public static final float VIEWPORT_GUI_HEIGHT = 480.0f;
+	
+	// Location of description file for texture atlas
+	public static final String TEXTURE_ATLAS_OBJECTS = "images/canyonbunny.pack.atlas";
 	
 }

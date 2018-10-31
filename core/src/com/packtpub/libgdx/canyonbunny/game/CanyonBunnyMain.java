@@ -2,16 +2,17 @@ package com.packtpub.libgdx.canyonbunny.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.packtpub.libgdx.canyonbunny.game.WorldRenderer;
+import com.packtpub.libgdx.canyonbunny.util.Assets;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.mygdx.game.WorldController;
+import com.badlogic.gdx.assets.AssetManager;
 
 public class CanyonBunnyMain implements ApplicationListener 
 {
-	private static final String TAG =
-	CanyonBunnyMain.class.getName();
-	private WorldController worldController;
+	private static final String TAG = CanyonBunnyMain.class.getName();
+	private com.mygdx.game.WorldController worldController;
 	private WorldRenderer worldRenderer;
 	private boolean paused;
 
@@ -25,11 +26,15 @@ public class CanyonBunnyMain implements ApplicationListener
 	{ 
 		// Set Libgdx log level to DEBUG
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		// Load assets
+		Assets.instance.init(new AssetManager());
 		// Initialize controller and renderer
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
 		// Game world is active on start
 		paused = false;
+		Assets.instance.init(new AssetManager());
+		
 		
 	}
 	
@@ -78,5 +83,6 @@ public class CanyonBunnyMain implements ApplicationListener
 	public void dispose () 
 	{
 		worldRenderer.dispose();
+		Assets.instance.dispose();
 	}
 }
