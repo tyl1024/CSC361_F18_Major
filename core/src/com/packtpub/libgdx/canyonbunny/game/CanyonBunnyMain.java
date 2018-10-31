@@ -14,6 +14,7 @@ public class CanyonBunnyMain implements ApplicationListener
 	private WorldController worldController;
 	private WorldRenderer worldRenderer;
 	private boolean paused;
+
 	
 	/*
 	 * Creates worldController and WorldRenderer methods
