@@ -9,9 +9,10 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.InputAdapter;
 
-public class WorldController 
+public class WorldController extends InputAdapter implements Disposable
 	{
 		public Sprite[] testSprites;
 		public int selectedSprite;
@@ -112,7 +113,40 @@ public class WorldController
 			sprMoveSpeed);
 			if (Gdx.input.isKeyPressed(Keys.S)) moveSelectedSprite(0,
 			-sprMoveSpeed);
+			
+			// Camera Controls (move)
+			float camMoveSpeed = 5 * deltaTime;
+			float camMoveSpeedAccelerationFactor = 5;
+			if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) camMoveSpeed *=
+			camMoveSpeedAccelerationFactor;
+			if (Gdx.input.isKeyPressed(Keys.LEFT)) moveCamera(-camMoveSpeed,
+			0);
+			if (Gdx.input.isKeyPressed(Keys.RIGHT)) moveCamera(camMoveSpeed,
+			0);
+			if (Gdx.input.isKeyPressed(Keys.UP)) moveCamera(0, camMoveSpeed);
+			if (Gdx.input.isKeyPressed(Keys.DOWN)) moveCamera(0,
+			-camMoveSpeed);
+			if (Gdx.input.isKeyPressed(Keys.BACKSPACE))
+			cameraHelper.setPosition(0, 0);
+			// Camera Controls (zoom)
+			float camZoomSpeed = 1 * deltaTime;
+			float camZoomSpeedAccelerationFactor = 5;
+			if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) camZoomSpeed *=
+			camZoomSpeedAccelerationFactor;
+			if (Gdx.input.isKeyPressed(Keys.COMMA))
+			cameraHelper.addZoom(camZoomSpeed);
+			if (Gdx.input.isKeyPressed(Keys.PERIOD)) cameraHelper.addZoom(
+			-camZoomSpeed);
+			if (Gdx.input.isKeyPressed(Keys.SLASH)) cameraHelper.setZoom(1);
 		}
+		
+			private void moveCamera (float x, float y)
+			{
+				x += cameraHelper.getPosition().x;
+				y += cameraHelper.getPosition().y;
+				cameraHelper.setPosition(x, y);
+			}
+		
 		
 		private void moveSelectedSprite (float x, float y) 
 		{
@@ -162,5 +196,11 @@ public class WorldController
 				cameraHelper.hasTarget());
 			}
 			return false;
+		}
+
+		@Override
+		public void dispose() {
+			// TODO Auto-generated method stub
+			
 		}
 }
