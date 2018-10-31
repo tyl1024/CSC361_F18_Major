@@ -16,21 +16,23 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 
 /**
- * Philip Deppen
- * Edited by Owen Burnham (Assignment 4)
- * Edited by Owen Burnham (Assignment 8)
- * Edited by Philip Deppen (Assignment 10)
  * Assets class for all the images
  */
-
-
 public class Assets implements Disposable, AssetErrorListener
 {
 	
 	public static final String TAG = Assets.class.getName();
 	public static final Assets instance = new Assets();
+	public AssetSanta santa;
+	public AssetPlatform platform;
+	public AssetSnowflake snowflake;
+	public AssetPresent present;
+	public AssetLevelDecoration levelDecoration;
 	
 	private AssetManager assetManager;
 	
@@ -55,6 +57,20 @@ public class Assets implements Disposable, AssetErrorListener
 		+ assetManager.getAssetNames().size);
 		for (String a : assetManager.getAssetNames())
 		Gdx.app.debug(TAG, "asset: " + a);
+		
+		TextureAtlas atlas =
+				assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
+				// enable texture filtering for pixel smoothing
+				for (Texture t : atlas.getTextures()) 
+				{
+					t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+				}
+				// create game resource objects
+				santa = new AssetSanta(atlas);
+				platform = new AssetPlatform(atlas);
+				snowflake = new AssetSnowflake(atlas);
+				present = new AssetPresent(atlas);
+				levelDecoration = new AssetLevelDecoration(atlas);
 	}
 	
 	//free memory
@@ -67,17 +83,73 @@ public class Assets implements Disposable, AssetErrorListener
 	//used if error finding asset filename
 	public void error (String filename, Class type,Throwable throwable) 
 	{
-	Gdx.app.error(TAG, "Couldn't load asset '"
-	+ filename + "'", (Exception)throwable);
+		Gdx.app.error(TAG, "Couldn't load asset '"
+		+ filename + "'", (Exception)throwable);
 	}
 	
 	//used if error finding asset
 	@Override
-	public void error(AssetDescriptor asset, Throwable throwable) {
-	Gdx.app.error(TAG, "Couldn't load asset '" +
-	asset.fileName + "'", (Exception)throwable);
+	public void error(AssetDescriptor asset, Throwable throwable)
+	{
+		Gdx.app.error(TAG, "Couldn't load asset '" +
+		asset.fileName + "'", (Exception)throwable);
 	}
+
+	//santa image
+	public class AssetSanta 
+	{
+		public final AtlasRegion body;
+		public AssetSanta (TextureAtlas atlas) 
+		{
+			body = atlas.findRegion("santa");
+		}
+	}
+	
+	//two different types of platforms for santa to move on
+	public class AssetPlatform
+	{
+		public final AtlasRegion flat;
+		public final AtlasRegion edge;
+		public AssetPlatform (TextureAtlas atlas)
+		{
+			flat = atlas.findRegion("snowPlatform1");
+			edge = atlas.findRegion("snowPlatform2");
+		}
+	}
+		
+	//present that santa will collect
+	public class AssetPresent 
+	{
+		public final AtlasRegion gift;
+		public AssetPresent (TextureAtlas atlas) 
+		{
+			gift = atlas.findRegion("present");
+		}
+	}
+	
+	//snowflake to grant invincibility for 8 seconds
+	public class AssetSnowflake 
+	{
+		public final AtlasRegion flake;
+		public AssetSnowflake (TextureAtlas atlas) 
+		{
+			flake = atlas.findRegion("snowflake");
+		}
+	}
+	
+	
+	public class AssetLevelDecoration 
+	{
+		public final AtlasRegion mountain;
+		public AssetLevelDecoration (TextureAtlas atlas) 
+		{
+
+			mountain = atlas.findRegion("mountainBackground");
+		}
+	}
+	
 }
+
 
 	
 
