@@ -16,6 +16,8 @@ public class WorldController
 		public Sprite[] testSprites;
 		public int selectedSprite;
 		
+		public CameraHelper cameraHelper;
+		
 		private static final String TAG =
 		WorldController.class.getName();
 		
@@ -35,6 +37,7 @@ public class WorldController
 		{ 
 			initTestObjects();
 			Gdx.input.setInputProcessor(this);
+			cameraHelper = new CameraHelper();
 		}
 		
 		//Testing object and sprites
@@ -92,10 +95,12 @@ public class WorldController
 		{ 
 			updateTestObjects(deltaTime);
 			handleDebugInput(deltaTime);
+			cameraHelper.update(deltaTime);
 		}
 		
 		//Keys to move around the sprites
-		private void handleDebugInput (float deltaTime) {
+		private void handleDebugInput (float deltaTime)
+		{
 			if (Gdx.app.getType() != ApplicationType.Desktop) return;
 			// Selected Sprite Controls
 			float sprMoveSpeed = 5 * deltaTime;
@@ -140,7 +145,21 @@ public class WorldController
 			else if (keycode == Keys.SPACE) 
 			{
 			selectedSprite = (selectedSprite + 1) % testSprites.length;
+			// Update camera's target to follow the currently
+			// selected sprite
+			if (cameraHelper.hasTarget()) 
+			{
+				cameraHelper.setTarget(testSprites[selectedSprite]);
+			}
 			Gdx.app.debug(TAG, "Sprite #" + selectedSprite + " selected");
+			}
+			// Toggle camera follow
+			else if (keycode == Keys.ENTER)
+			{
+				cameraHelper.setTarget(cameraHelper.hasTarget() ? null :
+				testSprites[selectedSprite]);
+				Gdx.app.debug(TAG, "Camera follow enabled: " +
+				cameraHelper.hasTarget());
 			}
 			return false;
 		}
