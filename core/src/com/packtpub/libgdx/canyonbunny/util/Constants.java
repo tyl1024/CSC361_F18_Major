@@ -1,12 +1,11 @@
 package com.packtpub.libgdx.canyonbunny.util;
 /*  Tyler Major
  *  pg 113 
- *  9/7/2018
+ *  10/30/2018
  *  
- *  new code added 9/13 from pg162
- *  
- *  Edited by Owen Burnham for Assignment 4
- */
+ /
+
+
 /**
  * @author Tyler Major copied from Chapter 3 to set up viewport width
  * and height
