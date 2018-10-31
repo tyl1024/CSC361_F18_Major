@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.InputAdapter;
 
 public class WorldController 
 	{
@@ -33,6 +34,7 @@ public class WorldController
 		private void init () 
 		{ 
 			initTestObjects();
+			Gdx.input.setInputProcessor(this);
 		}
 		
 		//Testing object and sprites
@@ -123,5 +125,23 @@ public class WorldController
 			rotation %= 360;
 			// Set new rotation value to selected sprite
 			testSprites[selectedSprite].setRotation(rotation);
+		}
+		
+		//keys to reset sprites and space bar selects sprites
+		public boolean keyUp(int keycode) 
+		{
+			// Reset game world
+			if (keycode == Keys.R) 
+			{
+				init();
+				Gdx.app.debug(TAG, "Game world resetted");
 			}
+			// Select next sprite
+			else if (keycode == Keys.SPACE) 
+			{
+			selectedSprite = (selectedSprite + 1) % testSprites.length;
+			Gdx.app.debug(TAG, "Sprite #" + selectedSprite + " selected");
+			}
+			return false;
+		}
 }
