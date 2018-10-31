@@ -1,4 +1,4 @@
-package com.packtpub.libgdx.canyonbunny.game;
+package com.mygdx.game;
 
 public class WorldController 
 	{
