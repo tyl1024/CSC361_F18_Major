@@ -1,3 +1,6 @@
+/*  Tyler Major 
+ *  10/31/2018
+ */
 package com.packtpub.libgdx.canyonbunny.game;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -75,6 +78,7 @@ public class CanyonBunnyMain implements ApplicationListener
 	@Override 
 	public void resume () 
 	{ 
+		Assets.instance.init(new AssetManager());
 		paused = false;
 	}
 	

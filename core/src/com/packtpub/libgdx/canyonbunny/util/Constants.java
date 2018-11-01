@@ -1,11 +1,7 @@
 package com.packtpub.libgdx.canyonbunny.util;
 /*  Tyler Major
  *  pg 113 
- *  9/7/2018
- *  
- *  new code added 9/13 from pg162
- *  
- *  Edited by Owen Burnham for Assignment 4
+ *  10//2018
  */
 /**
  * Holds variables that will always hold the same
@@ -27,5 +23,8 @@ public class Constants
 	
 	// Location of description file for texture atlas
 	public static final String TEXTURE_ATLAS_OBJECTS = "images/canyonbunny.pack.atlas";
+	
+	// Location of image file for level 01
+	public static final String LEVEL_01 = "levels/level-01.png";
 	
 }

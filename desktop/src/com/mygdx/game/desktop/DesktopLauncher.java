@@ -1,3 +1,7 @@
+/*  Tyler Major 
+ *  10/31/2018
+ */
+
 package com.mygdx.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;

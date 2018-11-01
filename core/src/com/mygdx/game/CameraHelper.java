@@ -1,5 +1,9 @@
 package com.mygdx.game;
 
+/*  Tyler Major 
+ *  10/31/2018
+ */
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;

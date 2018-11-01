@@ -1,3 +1,6 @@
+/*  Tyler Major 
+ *  10/31/2018
+ */
 package com.packtpub.libgdx.canyonbunny.util;
 
 import com.badlogic.gdx.Gdx;

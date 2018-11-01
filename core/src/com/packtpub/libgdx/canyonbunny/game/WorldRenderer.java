@@ -1,3 +1,6 @@
+/*  Tyler Major 
+ *  10/31/2018
+ */
 package com.packtpub.libgdx.canyonbunny.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
