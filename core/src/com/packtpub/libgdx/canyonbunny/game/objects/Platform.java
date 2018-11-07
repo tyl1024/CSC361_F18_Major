@@ -22,7 +22,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Platform extends AbstractGameObject
 	{
-		private TextureRegion regEdge;
 		private TextureRegion regMiddle;
 		private int length;
 		
@@ -33,9 +32,8 @@ public class Platform extends AbstractGameObject
 		
 		private void init () 
 		{
-			dimension.set(1, 1.5f);
-			regEdge = Assets.instance.Platform.flat;
-			regMiddle = Assets.instance.Platform.edge;
+			dimension.set(1, 2.5f);
+			regMiddle = Assets.instance.Platform.flat;
 			// Start length of this rock
 			setLength(1);
 		}
@@ -56,14 +54,6 @@ public class Platform extends AbstractGameObject
 			TextureRegion reg = null;
 			float relX = 0;
 			float relY = 0;
-			// Draw left edge
-			reg = regEdge;
-			relX -= dimension.x / 4;
-			batch.draw(reg.getTexture(), position.x + relX, position.y +
-			relY, origin.x, origin.y, dimension.x / 4, dimension.y,
-			scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),
-			reg.getRegionWidth(), reg.getRegionHeight(), false, false);
-			
 			// Draw middle
 			relX = 0;
 			reg = regMiddle;
@@ -76,12 +66,5 @@ public class Platform extends AbstractGameObject
 				relX += dimension.x;
 			}
 			
-			// Draw right edge
-			reg = regEdge;
-			batch.draw(reg.getTexture(),position.x + relX, position.y +
-			relY, origin.x + dimension.x / 8, origin.y, dimension.x / 4,
-			dimension.y, scale.x, scale.y, rotation, reg.getRegionX(),
-			reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(),
-			true, false);
 			}
 }

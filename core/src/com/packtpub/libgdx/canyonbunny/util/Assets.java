@@ -124,11 +124,9 @@ public class Assets implements Disposable, AssetErrorListener
 	public class AssetPlatform
 	{
 		public final AtlasRegion flat;
-		public final AtlasRegion edge;
 		public AssetPlatform (TextureAtlas atlas)
 		{
 			flat = atlas.findRegion("snowPlatform1");
-			edge = atlas.findRegion("snowPlatform2");
 		}
 	}
 		
@@ -161,7 +159,7 @@ public class AssetLevelDecoration
 		public AssetLevelDecoration (TextureAtlas atlas) 
 		{
 			mountainBackground = atlas.findRegion("mountainBackground");
-			waterOverlay = atlas.findRegion("waterOverlay");
+			waterOverlay = atlas.findRegion("lavaOverlay");
 		}
 	}
 }

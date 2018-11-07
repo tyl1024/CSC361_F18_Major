@@ -83,12 +83,8 @@ public class Mountains extends AbstractGameObject
 		 */
 		public void render(SpriteBatch batch)
 		{
-		// 80% distant mountains (dark gray)
-		drawMountain(batch, 0.5f, 0.5f, 0.5f, 0.8f);
-		// 50% distant mountains (gray)
-		drawMountain(batch, 0.25f, 0.25f, 0.7f, 0.5f);
 		// 30% distant mountains (light gray)
-		drawMountain(batch, 0.0f, 0.0f, 0.9f, 0.3f);
+		//drawMountain(batch, 0.0f, 0.0f, 0.9f, 0.3f);
 		}
 		
 		

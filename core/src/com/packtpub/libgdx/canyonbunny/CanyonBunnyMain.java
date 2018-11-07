@@ -36,7 +36,7 @@ public class CanyonBunnyMain implements ApplicationListener
 		worldRenderer = new WorldRenderer(worldController);
 		// Game world is active on start
 		paused = false;
-		Assets.instance.init(new AssetManager());
+		//Assets.instance.init(new AssetManager());
 		
 		
 	}
