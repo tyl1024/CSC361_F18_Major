@@ -8,6 +8,8 @@ import com.packtpub.libgdx.canyonbunny.util.Assets;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.WorldController;
 import com.mygdx.game.WorldRenderer;
 import com.badlogic.gdx.assets.AssetManager;
@@ -18,6 +20,10 @@ public class CanyonBunnyMain implements ApplicationListener
 	private com.mygdx.game.WorldController worldController;
 	private WorldRenderer worldRenderer;
 	private boolean paused;
+	
+	SpriteBatch batch;
+	Texture img;
+	
 
 	
 	/*
@@ -52,11 +58,16 @@ public class CanyonBunnyMain implements ApplicationListener
 			// since last rendered frame.
 			worldController.update(Gdx.graphics.getDeltaTime());
 		}
-		// Sets the clear screen color to: Cornflower Blue
-		Gdx.gl.glClearColor(0x64/255.0f, 0x95/255.0f, 0xed/255.0f,
-		0xff/255.0f);
 		// Clears the screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		batch = new SpriteBatch();
+		img = new Texture("images/winterBackground.png");
+		
+		batch.begin();
+		batch.draw(img,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.end();
+		
 		// Render game world to screen
 		worldRenderer.render();
 		
@@ -88,5 +99,6 @@ public class CanyonBunnyMain implements ApplicationListener
 	{
 		worldRenderer.dispose();
 		Assets.instance.dispose();
+		img.dispose();
 	}
 }

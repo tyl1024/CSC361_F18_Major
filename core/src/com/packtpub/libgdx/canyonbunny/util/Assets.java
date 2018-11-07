@@ -159,7 +159,8 @@ public class AssetLevelDecoration
 		public AssetLevelDecoration (TextureAtlas atlas) 
 		{
 			mountainBackground = atlas.findRegion("mountainBackground");
-			waterOverlay = atlas.findRegion("lavaOverlay");
+			waterOverlay = atlas.findRegion("water_overlay");
+			
 		}
 	}
 }
