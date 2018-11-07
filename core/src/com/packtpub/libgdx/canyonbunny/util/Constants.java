@@ -30,4 +30,13 @@ public class Constants
 	// Amount of extra lives at level start
 	public static final int LIVES_START = 3;
 	
+	// Added this from pg220. Delay after game over
+		public static final float TIME_DELAY_GAME_OVER = 3;
+		
+	// Added this from pg220. Delay after finish
+	public static final float TIME_DELAY_GAME_FINISHED = 3;
+		
+	// Added this from p206. Sets time limit for feather power up
+	public static final float ITEM_SNOWFLAKE_POWERUP_DURATION = 9;
+	
 }

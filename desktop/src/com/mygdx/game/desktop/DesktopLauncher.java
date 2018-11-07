@@ -9,7 +9,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import com.mygdx.game.MyGdxGame;
-import com.packtpub.libgdx.canyonbunny.game.CanyonBunnyMain;
+import com.packtpub.libgdx.canyonbunny.CanyonBunnyMain;
 
 
 public class DesktopLauncher 

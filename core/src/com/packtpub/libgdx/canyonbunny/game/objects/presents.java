@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class presents extends AbstractGameObject 
 {
-	private TextureRegion presents;
+	private TextureRegion regGift;
 	
 	public boolean collected;
 	
@@ -27,8 +27,8 @@ public class presents extends AbstractGameObject
 	{
 		dimension.set(0.5f, 0.5f);
 		
-		stateTime = MathUtils.random(0.0f, 1.0f);
-				
+		regGift = Assets.instance.present.gift;
+		
 		// set bounding box for collision detection
 		bounds.set(0, 0, dimension.x, dimension.y);
 		
@@ -43,7 +43,7 @@ public class presents extends AbstractGameObject
 		if (collected) return;
 		
 		TextureRegion reg = null;
-		reg = (TextureRegion) animation.getKeyFrame (stateTime, true);
+		reg = regGift;
 		
 		batch.draw(reg.getTexture(), position.x, position.y,
 				   origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y,

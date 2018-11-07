@@ -42,8 +42,8 @@ public class santa extends AbstractGameObject
 	public VIEW_DIRECTION viewDirection;
 	public float timeJumping;
 	public JUMP_STATE jumpState;
-	public boolean hasFeatherPowerup;
-	public float timeLeftFeatherPowerup;
+	public boolean hasFlakePowerup;
+	public float timeLeftFlakePowerup;
 	
 	
 	/**
@@ -71,18 +71,17 @@ public class santa extends AbstractGameObject
 		origin.set(dimension.x / 2, dimension.y / 2);
 		// Bounding box for collision detection
 		bounds.set(0, 0, dimension.x, dimension.y);
-		// Set physics values
-		terminalVelocity.set(3.0f, 4.0f);
-		friction.set(12.0f, 0.0f);
-		acceleration.set(0.0f, -25.0f);
+		//bounding box fo collision
+		bounds.set(0,0,dimension.x,dimension.y);
+
 		// View direction
 		viewDirection = VIEW_DIRECTION.RIGHT;
 		// Jump state
 		jumpState = JUMP_STATE.FALLING;
 		timeJumping = 0;
 		// Power-ups
-		hasFeatherPowerup = false;
-		timeLeftFeatherPowerup = 0;
+		hasFlakePowerup = false;
+		timeLeftFlakePowerup = 0;
 		
 	}
 	
@@ -105,20 +104,42 @@ public class santa extends AbstractGameObject
 		switch (jumpState)	
 		{
 		case GROUNDED: // Character is standind on a platform
-			
+			if (jumpKeyPressed)
+			{
+				// Start counting jump time from the beginning
+				timeJumping = 0;
+				jumpState = JUMP_STATE.JUMP_RISING;
+			}
+			break;
 		case JUMP_RISING: // Rising in the air
 			if (!jumpKeyPressed)
 				jumpState = JUMP_STATE.JUMP_FALLING;
 			break;
 		case FALLING: // Falling down
 		case JUMP_FALLING: // Falling down after jump
-			if (true)
+			if (jumpKeyPressed && hasFlakePowerup)
 			{
-				
+				timeJumping = JUMP_TIME_OFFSET_FLYING;
+				jumpState = JUMP_STATE.JUMP_RISING;
 			}
+			break;
 		}
 	}
 	
+	
+	/**
+	 * Allows us to toggle the feather power-up effect
+	 * @param pickedUp
+	 */
+	public void setFlakePowerup (boolean pickedUp) 
+	{
+		hasFlakePowerup = pickedUp;
+		if (pickedUp)
+		{
+			timeLeftFlakePowerup = 
+					Constants.ITEM_SNOWFLAKE_POWERUP_DURATION;
+		}
+	}
 
 	
 	/**
@@ -127,7 +148,7 @@ public class santa extends AbstractGameObject
 	 */
 	public boolean hasFlakePowerup () 
 	{
-		return hasFeatherPowerup && timeLeftFeatherPowerup > 0;
+		return hasFlakePowerup && timeLeftFlakePowerup > 0;
 	}
 	
 	@Override
@@ -144,13 +165,19 @@ public class santa extends AbstractGameObject
 	public void update (float deltaTime)
 	{
 		super.update(deltaTime);
-		if (velocity.x != 0)
-		{
-			viewDirection = velocity.x < 0 ? VIEW_DIRECTION.LEFT :
-				VIEW_DIRECTION.RIGHT;
-		}
 		
+		if (timeLeftFlakePowerup > 0)
+		{
+			timeLeftFlakePowerup -= deltaTime;
+			if (timeLeftFlakePowerup < 0)
+			{
+				// disable power-up
+				timeLeftFlakePowerup = 0;
+				setFlakePowerup(false);
+			}
+		}
 	}
+	
 	
 	
 	
@@ -171,17 +198,18 @@ public class santa extends AbstractGameObject
 	 */
 	public void render (SpriteBatch batch) 
 	{
-		TextureRegion reg = null;
-	
+TextureRegion reg = null;
 		
-		float dimCorrectionX = 0;
-		float dimCorrectionY = 0;
-
+		// Set special color when game object has a feather power-up
+		if (hasFlakePowerup)
+		{
+			batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
+		}
 		
 		// Draw image
+		reg = body;
 		batch.draw(reg.getTexture(), position.x, position.y, origin.x, 
-				origin.y, dimension.x + dimCorrectionX,
-				dimension.y + dimCorrectionY, scale.x, scale.y, rotation, 
+				origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, 
 				reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), 
 				reg.getRegionHeight(), viewDirection == VIEW_DIRECTION.LEFT, 
 				false);

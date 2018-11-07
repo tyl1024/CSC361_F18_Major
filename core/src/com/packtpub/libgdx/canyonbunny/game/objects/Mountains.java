@@ -91,15 +91,7 @@ public class Mountains extends AbstractGameObject
 		drawMountain(batch, 0.0f, 0.0f, 0.9f, 0.3f);
 		}
 		
-		/**
-		 * @param camPosition
-		 * Updates the scroll position based on the current 
-		 * position of the camera
-		 */
-		public void updateScrollPosition (Vector2 camPosition)
-		{
-			position.set(camPosition.x, position.y);
-		}
+		
 
 		
 }

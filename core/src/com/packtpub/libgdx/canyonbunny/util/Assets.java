@@ -44,46 +44,13 @@ public class Assets implements Disposable, AssetErrorListener
 	
 	
 	public AssetSanta santa;
-	public AssetPlatform platform;
+	public AssetPlatform Platform;
 	public AssetSnowflake snowflake;
 	public AssetPresent present;
 	public AssetLevelDecoration levelDecoration;
-	
-	
-	
-	
-	public AssetFonts fonts;
-	public class AssetFonts
-	{
-		public final BitmapFont defaultSmall;
-		public final BitmapFont defaultNormal;
-		public final BitmapFont defaultBig;
-		public AssetFonts ()
-		{
-			// create three fonts using Libgdx's 15px bitmap font
-			defaultSmall = new BitmapFont(
-			Gdx.files.internal("images/arial-15.fnt"), true);
-			defaultNormal = new BitmapFont(
-			Gdx.files.internal("images/arial-15.fnt"), true);
-			defaultBig = new BitmapFont(
-			Gdx.files.internal("images/arial-15.fnt"), true);
-			// set font sizes
-			defaultSmall.getData().setScale(0.75f);
-			defaultNormal.getData().setScale(1.0f);
-			defaultBig.getData().setScale(2.0f);
-			// enable linear texture filtering for smooth fonts
-			defaultSmall.getRegion().getTexture().setFilter(
-			TextureFilter.Linear, TextureFilter.Linear);
-			defaultNormal.getRegion().getTexture().setFilter(
-			TextureFilter.Linear, TextureFilter.Linear);
-			defaultBig.getRegion().getTexture().setFilter(
-			TextureFilter.Linear, TextureFilter.Linear);
-		}
-	}
-	
-	
-	
-	
+	public AssetLevelDecoration waterOverlay;
+
+
 	
 	//initializing assets
 	public void init (AssetManager assetManager)
@@ -113,7 +80,7 @@ public class Assets implements Disposable, AssetErrorListener
 				}
 				// create game resource objects
 				santa = new AssetSanta(atlas);
-				platform = new AssetPlatform(atlas);
+				Platform = new AssetPlatform(atlas);
 				snowflake = new AssetSnowflake(atlas);
 				present = new AssetPresent(atlas);
 				levelDecoration = new AssetLevelDecoration(atlas);
@@ -126,9 +93,6 @@ public class Assets implements Disposable, AssetErrorListener
 	public void dispose () 
 	{
 		assetManager.dispose();
-		fonts.defaultSmall.dispose();
-		fonts.defaultNormal.dispose();
-		fonts.defaultBig.dispose();
 	}
 	
 	//used if error finding asset filename
@@ -192,9 +156,12 @@ public class Assets implements Disposable, AssetErrorListener
 	public class AssetLevelDecoration 
 	{
 		public final AtlasRegion mountainBackground;
+		public final AtlasRegion goal;
+		
 		public AssetLevelDecoration (TextureAtlas atlas) 
 		{
 			mountainBackground = atlas.findRegion("mountainBackground");
+			goal = atlas.findRegion("goal");
 		}
 	}
 	

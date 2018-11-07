@@ -4,51 +4,58 @@ size: 1024,512
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+goal
+  rotate: false
+  xy: 2, 52
+  size: 150, 216
+  orig: 150, 216
+  offset: 0, 0
+  index: -1
 mountainBackground
   rotate: false
-  xy: 2, 244
+  xy: 2, 270
   size: 700, 225
   orig: 700, 225
   offset: 0, 0
   index: -1
 present
   rotate: false
-  xy: 704, 264
+  xy: 2, 2
   size: 65, 48
   orig: 65, 48
   offset: 0, 0
   index: -1
 santa
   rotate: false
-  xy: 704, 314
+  xy: 704, 340
   size: 142, 155
   orig: 142, 155
   offset: 0, 0
   index: -1
 snowPlatform1
   rotate: false
-  xy: 848, 113
+  xy: 960, 139
   size: 47, 356
   orig: 47, 356
   offset: 0, 0
   index: -1
 snowPlatform2
   rotate: false
-  xy: 2, 2
+  xy: 154, 28
   size: 65, 240
   orig: 65, 240
   offset: 0, 0
   index: -1
 snowflake
   rotate: false
-  xy: 69, 132
+  xy: 848, 385
   size: 110, 110
   orig: 110, 110
   offset: 0, 0
   index: -1
 snowman
   rotate: false
-  xy: 897, 378
+  xy: 221, 177
   size: 86, 91
   orig: 86, 91
   offset: 0, 0
