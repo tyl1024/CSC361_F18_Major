@@ -55,8 +55,15 @@ snowflake
   index: -1
 snowman
   rotate: false
-  xy: 221, 177
+  xy: 255, 177
   size: 86, 91
   orig: 86, 91
+  offset: 0, 0
+  index: -1
+waterOverlay
+  rotate: false
+  xy: 221, 108
+  size: 32, 160
+  orig: 32, 160
   offset: 0, 0
   index: -1
