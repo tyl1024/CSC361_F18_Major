@@ -83,8 +83,5 @@ public class WorldRenderer implements Disposable
 	public void dispose () 
 	{ 
 		batch.dispose();
-	}
-	
-	
-		
-	}
+	}		
+}

@@ -50,7 +50,8 @@ public class WorldController extends InputAdapter
 	}
 	
 	
-	private Pixmap createProceduralPixmap (int width, int height) {
+	private Pixmap createProceduralPixmap (int width, int height) 
+	{
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
 		// Fill square with red color at 50% opacity
 		pixmap.setColor(1, 0, 0, 0.5f);
