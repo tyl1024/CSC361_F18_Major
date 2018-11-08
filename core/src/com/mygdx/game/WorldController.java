@@ -123,9 +123,11 @@ public class WorldController extends InputAdapter
 	 * Restarts world
 	 */
 	@Override
-	public boolean keyUp (int keycode) {
+	public boolean keyUp (int keycode) 
+	{
 		// Reset game world
-		if (keycode == Keys.R) {
+		if (keycode == Keys.R) 
+		{
 			init();
 			Gdx.app.debug(TAG, "Game world resetted");
 		}
