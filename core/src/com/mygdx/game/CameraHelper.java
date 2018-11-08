@@ -13,7 +13,7 @@ import com.packtpub.libgdx.canyonbunny.game.objects.AbstractGameObject;
 public class CameraHelper 
 {
 	private static final String TAG = CameraHelper.class.getName();
-	private final float MAX_ZOOM_IN = 0.25f;
+	private final float MAX_ZOOM_IN = 2.00f;
 	private final float MAX_ZOOM_OUT = 10.0f;
 	private Vector2 position;
 	private float zoom;
@@ -22,12 +22,12 @@ public class CameraHelper
 	public CameraHelper () 
 	{
 		position = new Vector2();
-		zoom = 1.0f;
+		zoom = 2.4f;
 	}
 	public void update (float deltaTime)
 	{
 		if (!hasTarget()) return;
-		position.x = target.position.x + target.origin.x;
+		position.x = target.position.x  + target.origin.x;
 		position.y = target.position.y + target.origin.y;
 	}
 	
@@ -55,12 +55,10 @@ public class CameraHelper
 		return zoom; 
 	}
 	
-
-
 	public void applyTo (OrthographicCamera camera) 
 	{
 		camera.position.x = position.x;
-		camera.position.y = position.y;
+		camera.position.y = position.y + 3.5f;
 		camera.zoom = zoom;
 		camera.update();
 	}
