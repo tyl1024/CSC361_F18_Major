@@ -130,7 +130,7 @@ public class Assets implements Disposable, AssetErrorListener
 		public final AtlasRegion flat;
 		public AssetPlatform (TextureAtlas atlas)
 		{
-			flat = atlas.findRegion("snowPlatform1");
+			flat = atlas.findRegion("snowPlatform3");
 		}
 	}
 		

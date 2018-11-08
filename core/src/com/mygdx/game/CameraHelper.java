@@ -57,9 +57,9 @@ public class CameraHelper
 	
 	public void applyTo (OrthographicCamera camera) 
 	{
-		camera.position.x = position.x;
-		camera.position.y = position.y + 3.5f;
-		camera.zoom = zoom;
+		camera.position.x = position.x + 13.0f;
+		camera.position.y = position.y + 4.9f;
+		camera.zoom = zoom + .79f;
 		camera.update();
 	}
 	
