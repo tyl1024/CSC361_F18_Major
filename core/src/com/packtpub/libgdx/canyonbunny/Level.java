@@ -10,6 +10,7 @@ import com.packtpub.libgdx.canyonbunny.Level.BLOCK_TYPE;
 import com.packtpub.libgdx.canyonbunny.game.objects.AbstractGameObject;
 import com.packtpub.libgdx.canyonbunny.game.objects.Mountains;
 import com.packtpub.libgdx.canyonbunny.game.objects.Platform;
+import com.packtpub.libgdx.canyonbunny.game.objects.Presents;
 import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead;
 import com.packtpub.libgdx.canyonbunny.game.objects.WaterOverlay;
 import com.packtpub.libgdx.canyonbunny.util.Assets.AssetSanta;
@@ -30,7 +31,9 @@ public class Level
 		PLATFORM(0, 255, 0), // green
 		PLAYER_SPAWNPOINT(255, 255, 255), // white
 		ITEM_SNOWFLAKE(255, 0, 255), // purple
-		ITEM_PRESENT(255, 255, 0); // yellow
+		ITEM_PRESENT(255, 255, 0), // yellow
+		GOAL(236, 56, 56); // red
+
 		private int color;
 		
 	private BLOCK_TYPE (int r, int g, int b) 
@@ -49,6 +52,7 @@ public class Level
 		// objects
 		public Array<Platform> platform;
 		public SantaHead body;
+		public Array<Presents> gift;
 		
 		// decoration
 		public Mountains mountains;
@@ -66,6 +70,10 @@ public class Level
 			platform = new Array<Platform>();
 			//santa body
 			body = null;
+			//collectable presents
+			gift = new Array<Presents>();
+			
+			
 			// load image file that represents the level data
 			Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 			// scan pixels from top-left to bottom-right
@@ -123,6 +131,11 @@ public class Level
 			// gold coin
 			else if (BLOCK_TYPE.ITEM_PRESENT.sameColor(currentPixel)) 
 			{
+				obj = new Presents();
+				offsetHeight = -1.5f;
+				obj.position.set(pixelX,baseHeight * obj.dimension.y
+				+ offsetHeight);
+				gift.add((Presents)obj);
 			}
 			// unknown object/pixel color
 			else {
@@ -157,6 +170,9 @@ public class Level
 			body.render(batch);
 			// Draw Water Overlay
 			waterOverlay.render(batch);
+			// Draw Presents
+			for (Presents gift : gift)
+			gift.render(batch);
 			
 			
 		}

@@ -91,7 +91,7 @@ public class WorldRenderer implements Disposable
 	{
 		float x = -15;
 		float y = -15;
-		batch.draw(Assets.instance.present.gift,
+		batch.draw(Assets.instance.gift.gift,
 		x, y, 50, 50, 100, 100, 0.35f, -0.35f, 0);
 		Assets.instance.fonts.defaultBig.draw(batch,
 		"" + worldController.score,
