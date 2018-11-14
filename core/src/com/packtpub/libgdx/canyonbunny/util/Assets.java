@@ -159,16 +159,21 @@ public class AssetLevelDecoration
 {
 		public final AtlasRegion mountainBackground;
 		public final AtlasRegion waterOverlay;
+		public final AtlasRegion goal;
+
+		
 		
 		public AssetLevelDecoration (TextureAtlas atlas) 
 		{
 			mountainBackground = atlas.findRegion("mountainBackground");
 			waterOverlay = atlas.findRegion("water_overlay");
+			goal = atlas.findRegion("goal");
 			
 		}
 	}
-	public AssetFonts fonts;
-	public class AssetFonts
+
+public AssetFonts fonts;
+public class AssetFonts
 	{
 		public final BitmapFont defaultSmall;
 		public final BitmapFont defaultNormal;

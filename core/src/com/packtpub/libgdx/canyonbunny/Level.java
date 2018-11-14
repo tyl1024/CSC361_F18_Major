@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.packtpub.libgdx.canyonbunny.Level.BLOCK_TYPE;
 import com.packtpub.libgdx.canyonbunny.game.objects.AbstractGameObject;
+import com.packtpub.libgdx.canyonbunny.game.objects.Goal;
 import com.packtpub.libgdx.canyonbunny.game.objects.Mountains;
 import com.packtpub.libgdx.canyonbunny.game.objects.Platform;
 import com.packtpub.libgdx.canyonbunny.game.objects.Presents;
@@ -28,6 +29,7 @@ import com.packtpub.libgdx.canyonbunny.util.Assets.AssetSanta;
 public class Level 
 {
 		public static final String TAG = Level.class.getName();
+		public Goal goal;
 		public enum BLOCK_TYPE {
 		EMPTY(0, 0, 0), // black
 		PLATFORM(0, 255, 0), // green
@@ -148,6 +150,14 @@ public class Level
 				+ offsetHeight);
 				gift.add((Presents)obj);
 			}
+			// goal
+			else if (BLOCK_TYPE.GOAL.sameColor(currentPixel)) 
+			{
+				obj = new Goal();
+				offsetHeight = -7.0f;
+				obj.position.set(pixelX, baseHeight + offsetHeight);     //Tyler added from page 343. Adds end goal to level. Marked in red on png file
+				goal = (Goal)obj;	
+			}
 			// unknown object/pixel color
 			else {
 			int r = 0xff & (currentPixel >>> 24); //red color channel
@@ -177,6 +187,8 @@ public class Level
 			// Draw Rocks
 			for (Platform platform : platform)
 			platform.render(batch);
+			// Draw Goal
+			goal.render(batch);
 			//Draw Santa at beginning
 			body.render(batch);
 			// Draw Water Overlay
