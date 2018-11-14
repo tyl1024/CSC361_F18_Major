@@ -45,9 +45,10 @@ public class Presents extends AbstractGameObject
 		
 		TextureRegion reg = null;
 		
+		// Set bounding box for collision detection
+		bounds.set(0, 0, dimension.x, dimension.y);
 		
 		batch.draw(Assets.instance.gift.gift, position.x, position.y + 4.2f, 1.5f,1.5f);
-		//batch.draw(Assets.instance.gift.gift, 6.5f, 1.5f,1.5f,1.5f);
 		
 	}
 	
