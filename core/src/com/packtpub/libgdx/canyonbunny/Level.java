@@ -10,6 +10,7 @@ import com.packtpub.libgdx.canyonbunny.Level.BLOCK_TYPE;
 import com.packtpub.libgdx.canyonbunny.game.objects.AbstractGameObject;
 import com.packtpub.libgdx.canyonbunny.game.objects.Mountains;
 import com.packtpub.libgdx.canyonbunny.game.objects.Platform;
+import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead;
 import com.packtpub.libgdx.canyonbunny.game.objects.WaterOverlay;
 import com.packtpub.libgdx.canyonbunny.util.Assets.AssetSanta;
 
@@ -47,6 +48,7 @@ public class Level
 	}
 		// objects
 		public Array<Platform> platform;
+		public SantaHead body;
 		
 		// decoration
 		public Mountains mountains;
@@ -62,6 +64,8 @@ public class Level
 			
 			// objects
 			platform = new Array<Platform>();
+			//santa body
+			body = null;
 			// load image file that represents the level data
 			Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 			// scan pixels from top-left to bottom-right
@@ -106,6 +110,11 @@ public class Level
 			else if
 			(BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel)) 
 			{
+				obj = new SantaHead();
+				offsetHeight = -3.0f;
+				obj.position.set(pixelX,baseHeight * obj.dimension.y +
+						offsetHeight);
+						body = (SantaHead)obj;
 			}
 			// feather
 			else if (BLOCK_TYPE.ITEM_SNOWFLAKE.sameColor(currentPixel)) 
@@ -144,8 +153,11 @@ public class Level
 			// Draw Rocks
 			for (Platform platform : platform)
 			platform.render(batch);
+			//Draw Santa at beginning
+			body.render(batch);
 			// Draw Water Overlay
 			waterOverlay.render(batch);
+			
 			
 		}
 }
