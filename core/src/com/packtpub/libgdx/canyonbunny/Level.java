@@ -3,6 +3,7 @@ package com.packtpub.libgdx.canyonbunny;
 
 import com.badlogic.gdx.Gdx;
 
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
@@ -12,6 +13,7 @@ import com.packtpub.libgdx.canyonbunny.game.objects.Mountains;
 import com.packtpub.libgdx.canyonbunny.game.objects.Platform;
 import com.packtpub.libgdx.canyonbunny.game.objects.Presents;
 import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead;
+import com.packtpub.libgdx.canyonbunny.game.objects.Snowflake;
 import com.packtpub.libgdx.canyonbunny.game.objects.WaterOverlay;
 import com.packtpub.libgdx.canyonbunny.util.Assets.AssetSanta;
 
@@ -53,6 +55,7 @@ public class Level
 		public Array<Platform> platform;
 		public SantaHead body;
 		public Array<Presents> gift;
+		public Array<Snowflake> flake;
 		
 		// decoration
 		public Mountains mountains;
@@ -72,6 +75,9 @@ public class Level
 			body = null;
 			//collectable presents
 			gift = new Array<Presents>();
+			//Snowflake Powerup
+			flake = new Array<Snowflake>();
+
 			
 			
 			// load image file that represents the level data
@@ -127,6 +133,11 @@ public class Level
 			// feather
 			else if (BLOCK_TYPE.ITEM_SNOWFLAKE.sameColor(currentPixel)) 
 			{
+				obj = new Snowflake();
+				offsetHeight = -1.5f;
+				obj.position.set(pixelX,baseHeight * obj.dimension.y
+				+ offsetHeight);
+				flake.add((Snowflake)obj);
 			}
 			// gold coin
 			else if (BLOCK_TYPE.ITEM_PRESENT.sameColor(currentPixel)) 
@@ -173,6 +184,9 @@ public class Level
 			// Draw Presents
 			for (Presents gift : gift)
 			gift.render(batch);
+			// Draw Feathers
+			for (Snowflake flake : flake)
+			flake.render(batch);
 			
 			
 		}

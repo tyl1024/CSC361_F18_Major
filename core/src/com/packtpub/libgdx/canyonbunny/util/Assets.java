@@ -45,7 +45,7 @@ public class Assets implements Disposable, AssetErrorListener
 	
 	public AssetSanta santa;
 	public AssetPlatform Platform;
-	public AssetSnowflake snowflake;
+	public AssetSnowflake Snowflake;
 	public AssetPresent gift;
 	public AssetLevelDecoration levelDecoration;
 	public AssetLevelDecoration waterOverlay;
@@ -82,7 +82,7 @@ public class Assets implements Disposable, AssetErrorListener
 				// create game resource objects
 				santa = new AssetSanta(atlas);
 				Platform = new AssetPlatform(atlas);
-				snowflake = new AssetSnowflake(atlas);
+				Snowflake = new AssetSnowflake(atlas);
 				gift = new AssetPresent(atlas);
 				levelDecoration = new AssetLevelDecoration(atlas);
 	}
