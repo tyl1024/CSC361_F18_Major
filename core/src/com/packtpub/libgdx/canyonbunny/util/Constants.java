@@ -31,7 +31,7 @@ public class Constants
 	public static final int LIVES_START = 3;
 	
 	// Added this from pg220. Delay after game over
-		public static final float TIME_DELAY_GAME_OVER = 3;
+	public static final float TIME_DELAY_GAME_OVER = 3;
 		
 	// Added this from pg220. Delay after finish
 	public static final float TIME_DELAY_GAME_FINISHED = 3;
