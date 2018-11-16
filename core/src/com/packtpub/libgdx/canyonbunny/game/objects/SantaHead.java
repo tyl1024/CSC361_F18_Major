@@ -128,37 +128,28 @@ public class SantaHead extends AbstractGameObject
 	
 	
 
-	
 	@Override
-	/**
-	 * Edited by Owen Burnham (Assignment 7)
-	 * Handles the switching of the viewing direction accoriding
-	 * to the current move direction.  The time remaining of the 
-	 * power-up effect is also checked.  If the time is up, the
-	 * feather power-up effect is disabled.
-	 * 
-	 * Tyler Major updated for Assignment 12
-	 * Changes animation state if feather is picked up
-	 */
-	
 	public void update (float deltaTime) 
 	{
 			super.update(deltaTime);
-			if (velocity.x != 0) {
-			viewDirection = velocity.x < 0 ? VIEW_DIRECTION.LEFT :
-			VIEW_DIRECTION.RIGHT;
+			if (velocity.x != 0) 
+			{
+				viewDirection = velocity.x < 0 ? VIEW_DIRECTION.LEFT :
+				VIEW_DIRECTION.RIGHT;
 			}
-			if (timeLeftFlakePowerup > 0) {
-			timeLeftFlakePowerup -= deltaTime;
-			if (timeLeftFlakePowerup < 0) {
+			if (timeLeftFlakePowerup > 0) 
+			{
+				timeLeftFlakePowerup -= deltaTime;
+			}
+			if (timeLeftFlakePowerup < 0) 
+			{
 			// disable power-up
 				timeLeftFlakePowerup = 0;
 				setFlakePowerup(false);
-				}
 			}
-	}
+		}
 			
-	
+			
 	
 	
 	@Override
@@ -186,11 +177,14 @@ public class SantaHead extends AbstractGameObject
 		
 		// Draw image
 		reg = regHead;
-		batch.draw(reg.getTexture(), position.x, position.y, origin.x,
-		origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation,
+		batch.draw(reg.getTexture(), position.x + 1.2f, position.y+ 1.8f, origin.x,
+		origin.y, dimension.x, dimension.y, scale.x + 2.6f, scale.y+3.8f, rotation,
 		reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(),
 		reg.getRegionHeight(), viewDirection == VIEW_DIRECTION.LEFT,
 		false);
+		
+		// Draw Santa
+		//batch.draw(Assets.instance.santa.body,0.9f,1.5f,2.6f,3.8f);
 		
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);

@@ -4,6 +4,7 @@ package com.packtpub.libgdx.canyonbunny;
 import com.badlogic.gdx.Gdx;
 
 
+
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
@@ -198,9 +199,17 @@ public class Level
 			gift.render(batch);
 			// Draw Feathers
 			for (Snowflake flake : flake)
-			flake.render(batch);
-			
-			
+			flake.render(batch);	
+		}
+		public void update (float deltaTime) 
+		{
+			body.update(deltaTime);
+			for(Platform platform : platform)
+			platform.update(deltaTime);
+			for(Presents gift : gift)
+			gift.update(deltaTime);
+			for(Snowflake flake : flake)
+				flake.update(deltaTime);
 		}
 }
 		

@@ -4,6 +4,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Application.ApplicationType;
+
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.Gdx;
@@ -14,7 +15,10 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.packtpub.libgdx.canyonbunny.game.objects.Platform;
+import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead;
+import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead.JUMP_STATE;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.packtpub.libgdx.canyonbunny.*;
 
@@ -74,6 +78,8 @@ public class WorldController extends InputAdapter
 	public void update(float deltaTime) 
 	{
 		handleDebugInput(deltaTime);
+		level.update(deltaTime);
+		testCollisions();
 		cameraHelper.update(deltaTime);
 	}
 	
@@ -144,4 +150,63 @@ public class WorldController extends InputAdapter
 		level = new Level (Constants.LEVEL_01);
 	}
 	
+	private void onCollisionSantaHeadWithPlatform (Platform platform) 
+	{
+		SantaHead bunnyHead = level.body;
+		float heightDifference = Math.abs(bunnyHead.position.y
+		- ( platform.position.y + platform.bounds.height));
+		if (heightDifference > 0.25f) 
+		{
+			boolean hitRightEdge = bunnyHead.position.x > (
+					platform.position.x + platform.bounds.width / 2.0f);
+		if (hitRightEdge) 
+		{
+			bunnyHead.position.x = platform.position.x + platform.bounds.width;
+		} 
+		else 
+		{
+			bunnyHead.position.x = platform.position.x -
+			bunnyHead.bounds.width;
+		}
+		return;
+		}
+		switch (bunnyHead.jumpState) 
+		{
+			case GROUNDED:
+				break;
+			case FALLING:
+			case JUMP_FALLING:
+			bunnyHead.position.y = platform.position.y +
+			bunnyHead.bounds.height + bunnyHead.origin.y;
+			bunnyHead.jumpState = JUMP_STATE.GROUNDED;
+			break;
+		case JUMP_RISING:
+			bunnyHead.position.y = platform.position.y +
+			bunnyHead.bounds.height + bunnyHead.origin.y;
+			break;
+		}
+	}
+	
+	
+	// Rectangles for collision detection
+	private Rectangle r1 = new Rectangle();
+	private Rectangle r2 = new Rectangle();
+	//private void onCollisionSantaHeadWithPlatform(Platform platform) {};
+	//private void onCollisionBunnyWithGoldCoin(GoldCoin goldcoin) {};
+	//private void onCollisionBunnyWithFeather(Feather feather) {};
+	private void testCollisions ()
+	{
+		r1.set(level.body.position.x, level.body.position.y,
+		level.body.bounds.width, level.body.bounds.height);
+		// Test collision: Bunny Head <-> Rocks
+		for (Platform platform : level.platform) {
+		r2.set(platform.position.x, platform.position.y, platform.bounds.width,
+		platform.bounds.height);
+		if (!r1.overlaps(r2)) continue;
+		onCollisionSantaHeadWithPlatform(platform);
+		// IMPORTANT: must do all collisions for valid
+		// edge testing on rocks.
+	}
+	
+	}
 }
