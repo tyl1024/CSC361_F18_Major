@@ -16,9 +16,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.packtpub.libgdx.canyonbunny.game.objects.Platform;
+import com.packtpub.libgdx.canyonbunny.game.objects.Presents;
 import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead;
 import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead.JUMP_STATE;
+import com.packtpub.libgdx.canyonbunny.game.objects.Snowflake;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.packtpub.libgdx.canyonbunny.*;
 
@@ -28,6 +37,7 @@ public class WorldController extends InputAdapter
 	public Level level;
 	public int lives;
 	public int score;
+	public World b2world;
 	
 	private static final String TAG = 
 		WorldController.class.getName();
@@ -78,8 +88,9 @@ public class WorldController extends InputAdapter
 	public void update(float deltaTime) 
 	{
 		handleDebugInput(deltaTime);
+		handleInputGame(deltaTime);
 		level.update(deltaTime);
-		testCollisions();
+		b2world.step(deltaTime, 8, 3);
 		cameraHelper.update(deltaTime);
 	}
 	
@@ -148,65 +159,147 @@ public class WorldController extends InputAdapter
 	{
 		score = 0;
 		level = new Level (Constants.LEVEL_01);
+		cameraHelper.setTarget(level.body2);
+		initPhysics();
 	}
-	
-	private void onCollisionSantaHeadWithPlatform (Platform platform) 
+		
+	public void initPhysics()
+    {
+        if (b2world != null) 
+            b2world.dispose();
+        b2world = new World(new Vector2(0, -9.81f), true);
+        b2world.setContactListener(new physicsTest(this));
+        
+        Vector2 origin = new Vector2();
+        
+        // creating the rock body
+        for (Platform platform : level.platform)
+        {
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.type = BodyType.KinematicBody;
+            bodyDef.position.set(platform.position);
+            Body body = b2world.createBody(bodyDef);
+            // set user data
+            body.setUserData(platform);
+            platform.body = body;
+            PolygonShape polygonShape = new PolygonShape();
+            origin.x = platform.bounds.width / 2.0f;
+            origin.y = platform.bounds.height / 2.0f;
+            polygonShape.setAsBox(platform.bounds.width / 2.0f,
+                    platform.bounds.height / 2.0f,origin, 0);
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.friction = 0.5f;
+            fixtureDef.shape = polygonShape;
+            body.createFixture(fixtureDef);
+            polygonShape.dispose();
+        }
+        
+        // creating the presents body
+        for (Presents gift : level.gift)
+        {
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.type = BodyType.KinematicBody;
+            bodyDef.position.set(gift.position);
+            Body body = b2world.createBody(bodyDef);
+            body.setUserData(gift);
+            
+            gift.body = body;
+            PolygonShape polygonShape = new PolygonShape();
+            origin.x = gift.bounds.width / 2.0f;
+            origin.y = gift.bounds.height / 2.0f;
+            polygonShape.setAsBox(gift.bounds.width / 2.0f,
+                    gift.bounds.height / 2.0f,origin, 0);
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = polygonShape;
+            fixtureDef.isSensor = true;
+            body.createFixture(fixtureDef);
+            polygonShape.dispose();
+        }
+       
+        // creating the snowflake body
+        for (Snowflake flake : level.flake)
+        {
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.type = BodyType.KinematicBody;
+            bodyDef.position.set(flake.position);
+            Body body = b2world.createBody(bodyDef);
+            // set user data
+            body.setUserData(flake);
+            
+            flake.body = body;
+            PolygonShape polygonShape = new PolygonShape();
+            origin.x = flake.bounds.width / 2.0f;
+            origin.y = flake.bounds.height / 2.0f;
+            polygonShape.setAsBox(flake.bounds.width / 2.0f,
+                    flake.bounds.height / 2.0f,origin, 0);
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = polygonShape;
+            fixtureDef.isSensor = true;
+            body.createFixture(fixtureDef);
+            polygonShape.dispose();
+        }
+        
+        // creating the boy body
+        SantaHead body2 = Level.body2;
+    
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.type = BodyType.DynamicBody;
+            bodyDef.position.set(body2.position);
+            Body body = b2world.createBody(bodyDef);
+            body.setUserData(body2);
+            body2.body = body;
+            PolygonShape polygonShape = new PolygonShape();
+            origin.x = body2.bounds.width / 2.0f;
+            origin.y = body2.bounds.height / 2.0f;
+            polygonShape.setAsBox(body2.bounds.width / 2.0f,
+                    body2.bounds.height / 2.0f,origin, 0);
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = polygonShape;
+            body.createFixture(fixtureDef);
+            polygonShape.dispose();
+         
+    }
+	/* handle input game from book//
+	 * 
+	 * if a
+	 * 	Level.body2.body.setLinearVelocity(new Vector2(-3,0));
+	 */
+	/**
+	 * Made by Philip Deppen (Assignment 5)
+	 * allows player to be controllable with left and right arrow keys
+	 */
+	private void handleInputGame (float deltaTime) 
 	{
-		SantaHead bunnyHead = level.body;
-		float heightDifference = Math.abs(bunnyHead.position.y
-		- ( platform.position.y + platform.bounds.height));
-		if (heightDifference > 0.25f) 
-		{
-			boolean hitRightEdge = bunnyHead.position.x > (
-					platform.position.x + platform.bounds.width / 2.0f);
-		if (hitRightEdge) 
-		{
-			bunnyHead.position.x = platform.position.x + platform.bounds.width;
-		} 
-		else 
-		{
-			bunnyHead.position.x = platform.position.x -
-			bunnyHead.bounds.width;
-		}
-		return;
-		}
-		switch (bunnyHead.jumpState) 
-		{
-			case GROUNDED:
-				break;
-			case FALLING:
-			case JUMP_FALLING:
-			bunnyHead.position.y = platform.position.y +
-			bunnyHead.bounds.height + bunnyHead.origin.y;
-			bunnyHead.jumpState = JUMP_STATE.GROUNDED;
-			break;
-		case JUMP_RISING:
-			bunnyHead.position.y = platform.position.y +
-			bunnyHead.bounds.height + bunnyHead.origin.y;
-			break;
-		}
-	}
-	
-	
-	// Rectangles for collision detection
-	private Rectangle r1 = new Rectangle();
-	private Rectangle r2 = new Rectangle();
-	//private void onCollisionSantaHeadWithPlatform(Platform platform) {};
-	//private void onCollisionBunnyWithGoldCoin(GoldCoin goldcoin) {};
-	//private void onCollisionBunnyWithFeather(Feather feather) {};
-	private void testCollisions ()
-	{
-		r1.set(level.body.position.x, level.body.position.y,
-		level.body.bounds.width, level.body.bounds.height);
-		// Test collision: Bunny Head <-> Rocks
-		for (Platform platform : level.platform) {
-		r2.set(platform.position.x, platform.position.y, platform.bounds.width,
-		platform.bounds.height);
-		if (!r1.overlaps(r2)) continue;
-		onCollisionSantaHeadWithPlatform(platform);
-		// IMPORTANT: must do all collisions for valid
-		// edge testing on rocks.
-	}
-	
-	}
+	   if (cameraHelper.hasTarget(level.body2)) 
+	   {
+		   // Player Movement
+		   if (Gdx.input.isKeyPressed(Keys.A)) 
+		   {
+			   level.body2.body.setLinearVelocity(new Vector2(-5,0));
+			   level.body2.velocity.x = -3.0f;
+		   } 
+		   else if (Gdx.input.isKeyPressed(Keys.D)) 
+		   {
+			   level.body2.body.setLinearVelocity(new Vector2(5,0));
+			   level.body2.velocity.x = 3.0f;
+		   } 
+		   else 
+		   {
+			   // Execute auto-forward movement on non-desktop platform
+			   if (Gdx.app.getType() != ApplicationType.Desktop) 
+			   {
+				   //level.bunnyHead.velocity.x = level.bunnyHead.terminalVelocity.x;
+			   }
+		   }
+		   // Bunny Jump
+		   if (Gdx.input.isTouched() || Gdx.input.isKeyPressed(Keys.SPACE)) 
+		   {
+	         level.body2.setJumping(true);
+	       } 
+		   else 
+	       {
+	         level.body2.setJumping(false);
+	       }
+	   }
+   	}	
 }

@@ -56,7 +56,7 @@ public class Level
 	}
 		// objects
 		public Array<Platform> platform;
-		public SantaHead body;
+		public static SantaHead body2;
 		public Array<Presents> gift;
 		public Array<Snowflake> flake;
 		
@@ -75,7 +75,7 @@ public class Level
 			// objects
 			platform = new Array<Platform>();
 			//santa body
-			body = null;
+			body2 = null;
 			//collectable presents
 			gift = new Array<Presents>();
 			//Snowflake Powerup
@@ -131,7 +131,7 @@ public class Level
 				offsetHeight = -3.0f;
 				obj.position.set(pixelX,baseHeight * obj.dimension.y +
 						offsetHeight);
-						body = (SantaHead)obj;
+						body2 = (SantaHead)obj;
 			}
 			// feather
 			else if (BLOCK_TYPE.ITEM_SNOWFLAKE.sameColor(currentPixel)) 
@@ -191,7 +191,7 @@ public class Level
 			// Draw Goal
 			goal.render(batch);
 			//Draw Santa at beginning
-			body.render(batch);
+			body2.render(batch);
 			// Draw Water Overlay
 			waterOverlay.render(batch);
 			// Draw Presents
@@ -203,7 +203,7 @@ public class Level
 		}
 		public void update (float deltaTime) 
 		{
-			body.update(deltaTime);
+			body2.update(deltaTime);
 			for(Platform platform : platform)
 			platform.update(deltaTime);
 			for(Presents gift : gift)

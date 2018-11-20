@@ -27,6 +27,7 @@ public abstract class AbstractGameObject
 	public Vector2 friction;
 	public Vector2 acceleration;
 	public Rectangle bounds;
+	public Body body;
 
 	AbstractGameObject () 
 	{
@@ -49,11 +50,14 @@ public abstract class AbstractGameObject
 	 */
 	public void update(float deltaTime) 
 	{
-		updateMotionX(deltaTime);
-		updateMotionY(deltaTime);
+		//updateMotionX(deltaTime);
+		//updateMotionY(deltaTime);
 		// Move to new position
-		position.x += velocity.x * deltaTime;
-		position.y += velocity.y * deltaTime;
+		//position.x += velocity.x * deltaTime;
+		//position.y += velocity.y * deltaTime;
+		
+		position.set(body.getPosition());
+		rotation = body.getAngle() * MathUtils.radiansToDegrees;
 	}
 	
 	/**

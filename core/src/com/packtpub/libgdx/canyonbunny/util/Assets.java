@@ -43,7 +43,7 @@ public class Assets implements Disposable, AssetErrorListener
 	}
 	
 	
-	public AssetSanta santa;
+	public AssetSanta body2;
 	public AssetPlatform Platform;
 	public AssetSnowflake Snowflake;
 	public AssetPresent gift;
@@ -80,7 +80,7 @@ public class Assets implements Disposable, AssetErrorListener
 				}
 				fonts = new AssetFonts();
 				// create game resource objects
-				santa = new AssetSanta(atlas);
+				body2 = new AssetSanta(atlas);
 				Platform = new AssetPlatform(atlas);
 				Snowflake = new AssetSnowflake(atlas);
 				gift = new AssetPresent(atlas);
@@ -117,10 +117,10 @@ public class Assets implements Disposable, AssetErrorListener
 	//santa image
 	public class AssetSanta 
 	{
-		public final AtlasRegion body;
+		public final AtlasRegion body2;
 		public AssetSanta (TextureAtlas atlas) 
 		{
-			body = atlas.findRegion("santa");
+			body2 = atlas.findRegion("santa");
 		}
 	}
 	

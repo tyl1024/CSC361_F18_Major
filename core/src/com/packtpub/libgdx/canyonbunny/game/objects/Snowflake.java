@@ -31,6 +31,7 @@ private void init ()
 {
 	dimension.set(0.5f, 0.5f);
 	regFlake = Assets.instance.Snowflake.flake;
+	bounds.set(0,0,dimension.x, dimension.y);
 	collected = false;
 }
 
@@ -42,11 +43,11 @@ public void render (SpriteBatch batch)
 		reg = regFlake;
 		// Set bounding box for collision detection
 		bounds.set(0, 0, dimension.x, dimension.y);
-		/*batch.draw(reg.getTexture(), position.x, position.y,
+		batch.draw(reg.getTexture(), position.x, position.y,
 				origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y,
 				rotation, reg.getRegionX(), reg.getRegionY(),
-				reg.getRegionWidth(), reg.getRegionHeight(), false, false);*/
-		batch.draw(Assets.instance.Snowflake.flake,position.x,position.y + 3.0f, 2.5f, 2.5f);
+				reg.getRegionWidth(), reg.getRegionHeight(), false, false);
+		//batch.draw(Assets.instance.Snowflake.flake,position.x,position.y + 3.0f, 2.5f, 2.5f);
 }
 
 // Tyler Major: returns a score

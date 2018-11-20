@@ -10,6 +10,7 @@ import com.packtpub.libgdx.canyonbunny.util.Assets;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 /**
@@ -67,7 +68,7 @@ public class SantaHead extends AbstractGameObject
 	public void init () 
 	{
 		dimension.set(1, 1);
-		regHead = Assets.instance.santa.body;
+		regHead = Assets.instance.body2.body2;
 		// Center image on game object
 		origin.set(dimension.x / 2, dimension.y / 2);
 		// View direction
@@ -92,26 +93,38 @@ public class SantaHead extends AbstractGameObject
 	
 	public void setJumping (boolean jumpKeyPressed)
 	{
-		switch (jumpState) {
+		switch (jumpState) 
+		{
 		case GROUNDED: // Character is standing on a platform
-		if (jumpKeyPressed) {
-		// Start counting jump time from the beginning
-		timeJumping = 0;
-		jumpState = JUMP_STATE.JUMP_RISING;
+		if (jumpKeyPressed)
+		{
+			// Start counting jump time from the beginning
+			timeJumping = 0;
+			jumpState = JUMP_STATE.JUMP_RISING;
+			body.setLinearVelocity(new Vector2(0,8));
+
+			//System.out.println("Here");
 		}
 		break;
 		case JUMP_RISING: // Rising in the air
 		if (!jumpKeyPressed)
-		jumpState = JUMP_STATE.JUMP_FALLING;
+			jumpState = JUMP_STATE.JUMP_FALLING;
+			//System.out.println("Here2");
 		break;
 		case FALLING:// Falling down
+			//System.out.println("Here5");
 		case JUMP_FALLING: // Falling down after jump
-			if (jumpKeyPressed && hasFlakePowerup) {
-				timeJumping = JUMP_TIME_OFFSET_FLYING;
-				jumpState = JUMP_STATE.JUMP_RISING;
-				}
+			if (jumpKeyPressed && hasFlakePowerup) 
+			{
+				    //System.out.println("Here3");
+					timeJumping = JUMP_TIME_OFFSET_FLYING;
+					jumpState = JUMP_STATE.JUMP_RISING;
+					//System.out.println("Here4");
+			}
+		//System.out.println("Here6");
 				break;
 				}
+		//System.out.println("Here8");
 	}	
 			
 	public void setFlakePowerup (boolean pickedUp) 

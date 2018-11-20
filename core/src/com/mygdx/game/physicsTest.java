@@ -1,101 +1,208 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Application.ApplicationType;
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.mygdx.game.WorldController;
+import com.packtpub.libgdx.canyonbunny.Level;
+import com.packtpub.libgdx.canyonbunny.game.objects.AbstractGameObject;
+import com.packtpub.libgdx.canyonbunny.game.objects.Platform;
+import com.packtpub.libgdx.canyonbunny.game.objects.Presents;
+import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead;
+import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead.JUMP_STATE;
+import com.packtpub.libgdx.canyonbunny.game.objects.Snowflake;
+import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 
-public class physicsTest extends ApplicationAdapter 
+
+/**
+ * This class takes into account all of the collisions
+ */
+public class physicsTest implements ContactListener
 {
-    SpriteBatch batch;
-    Sprite sprite;
-    Texture img;
-    World world;
-    Body body;
+    private WorldController controller;
+    private ObjectMap<Short, ObjectMap<Short, ContactListener>> listeners;
+    
+    public physicsTest(WorldController w)
+    {
+        controller = w;
+        listeners = new ObjectMap<Short, ObjectMap<Short, ContactListener>>();
+    }
+    /**
+     * Determines which objects are colliding and calls the 
+     * appropriate method
+     * @param contact
+     */
+    private void processContact(Contact contact)
+    {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+        AbstractGameObject objA = (AbstractGameObject) fixtureA.getBody().getUserData();
+        AbstractGameObject objB = (AbstractGameObject) fixtureB.getBody().getUserData();
+        if ((objA instanceof SantaHead) && (objB instanceof Presents))
+        {
+            processPresentContact(fixtureA, fixtureB);
+        }
+        
+        if (((objA instanceof SantaHead) && (objB instanceof Platform)) || ((objA instanceof Platform) && (objB instanceof SantaHead)))
+        {
+            processRockContact(fixtureA,fixtureB);
+        }
+        
+        if ((objA instanceof SantaHead) && (objB instanceof Snowflake))
+        {
+            processSnowflakeContact(fixtureA,fixtureB);
+        }
+        
+        //if ((objA instanceof Boy) && (objB instanceof Ghost))
+        //{
+        //    processGhostContact(fixtureA,fixtureB);
+        //}
+    
+    }
+    
+    /**
+     * Handles collision between boy and candy corn
+     * @param boyFixture
+     * @param candyCornFixture
+     */
+    private void processPresentContact(Fixture body2Fixture, Fixture presentFixture)
+    {
+        SantaHead body2 = (SantaHead) body2Fixture.getBody().getUserData();
+        Presents gift = (Presents) presentFixture.getBody().getUserData();
+        gift.collected = true;
+        controller.score += gift.getScore();
+        Gdx.app.log("CollisionHandler", "Presents collected");
+    }
+    
+    /**
+     * Handles collision between santa and rock
+     * @param bodyFixture
+     * @param platformFixture
+     */
+    private void processRockContact(Fixture bodyFixture, Fixture platformFixture)
+    {
+        SantaHead body2 = (SantaHead) platformFixture.getBody().getUserData();
+        Platform platform = (Platform) bodyFixture.getBody().getUserData();
+        body2 = Level.body2;
+        float heightDifference = Math.abs(body2.position.y - (  platform.position.y + platform.bounds.height));
+         
+         if (heightDifference > 0.25f) 
+         {
+             boolean hitRightEdge = body2.position.x > (platform.position.x + platform.bounds.width / 2.0f);
+             if (hitRightEdge) 
+             {
+                 body2.position.x = platform.position.x + platform.bounds.width;
+             }
+             else 
+             {
+                 body2.position.x = platform.position.x - body2.bounds.width;
+             }
+             return;
+         }
+         
+         switch (body2.jumpState) 
+         {
+             case GROUNDED:
+                 break;
+             case FALLING:
+             case JUMP_FALLING:
+                 body2.position.y = platform.position.y + body2.bounds.height  + body2.origin.y;
+                 body2.jumpState = JUMP_STATE.GROUNDED;
+                 break;
+             case JUMP_RISING:
+                  body2.position.y = platform.position.y + body2.bounds.height + body2.origin.y;
+                 break;
+         }
 
-    @Override
-    public void create() {
-
-        batch = new SpriteBatch();
-        // We will use the default LibGdx logo for this example, but we need a 
-        //sprite since it's going to move
-        img = new Texture("santa.png");
-        sprite = new Sprite(img);
-
-        // Center the sprite in the top/middle of the screen
-        sprite.setPosition(Gdx.graphics.getWidth() / 2 - sprite.getWidth() / 2,
-                Gdx.graphics.getHeight() / 2);
-
-        // Create a physics world, the heart of the simulation.  The Vector 
-        //passed in is gravity
-        world = new World(new Vector2(0, -98f), true);
-
-        // Now create a BodyDefinition.  This defines the physics objects type 
-        //and position in the simulation
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        // We are going to use 1 to 1 dimensions.  Meaning 1 in physics engine 
-        //is 1 pixel
-        // Set our body to the same position as our sprite
-        bodyDef.position.set(sprite.getX(), sprite.getY());
-
-        // Create a body in the world using our definition
-        body = world.createBody(bodyDef);
-
-        // Now define the dimensions of the physics shape
-        PolygonShape shape = new PolygonShape();
-        // We are a box, so this makes sense, no?
-        // Basically set the physics polygon to a box with the same dimensions 
-        //as our sprite
-        shape.setAsBox(sprite.getWidth()/2, sprite.getHeight()/2);
-
-        // FixtureDef is a confusing expression for physical properties
-        // Basically this is where you, in addition to defining the shape of the 
-        //body
-        // you also define it's properties like density, restitution and others 
-       // we will see shortly
-        // If you are wondering, density and area are used to calculate over all 
-       // mass
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
-
-        Fixture fixture = body.createFixture(fixtureDef);
-
-        // Shape is the only disposable of the lot, so get rid of it
-        shape.dispose();
+    }
+    
+    /**
+     * Handles collision between boy and pumpkin
+     * @param boyFixture
+     * @param candyCornFixture
+     */
+    private void processSnowflakeContact(Fixture body2Fixture, Fixture snowflakeFixture)
+    {
+        SantaHead boy = (SantaHead) body2Fixture.getBody().getUserData();
+        Snowflake flake = (Snowflake) snowflakeFixture.getBody().getUserData();
+        flake.collected = true;
+        controller.score += flake.getScore();
+        controller.level.body2.setFlakePowerup(true);
+        Gdx.app.log("CollisionHandler", "Powerup Flake collected");
     }
 
     @Override
-    public void render() {
+    public void beginContact(Contact contact) 
+    {
+        //Fixture fixtureA = contact.getFixtureA();
+        //Fixture fixtureB = contact.getFixtureB();
 
-        // Advance the world, by the amount of time that has elapsed since the 
-        //last frame
-        // Generally in a real game, dont do this in the render loop, as you are 
-        //tying the physics
-        // update rate to the frame rate, and vice versa
-        world.step(Gdx.graphics.getDeltaTime(), 6, 2);
+        //Gdx.app.log("CollisionHandler-begin A", "begin");
 
-        // Now update the spritee position accordingly to it's now updated 
-        //Physics body
-        sprite.setPosition(body.getPosition().x, body.getPosition().y);
-
-        // You know the rest...
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(sprite, sprite.getX(), sprite.getY());
-        batch.end();
+        //ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
+        //if (listener != null)
+        //{
+        //    listener.beginContact(contact);
+//    }    
     }
 
     @Override
-    public void dispose() {
-        // Hey, I actually did some clean up in a code sample!
-        img.dispose();
-        world.dispose();
+    public void endContact(Contact contact) 
+    {
+        //Fixture fixtureA = contact.getFixtureA();
+        //Fixture fixtureB = contact.getFixtureB();
+
+        //Gdx.app.log("CollisionHandler-end A", "end");
+
+        // Gdx.app.log("CollisionHandler-end A", fixtureA.getBody().getLinearVelocity().x+" : "+fixtureA.getBody().getLinearVelocity().y);
+        // Gdx.app.log("CollisionHandler-end B", fixtureB.getBody().getLinearVelocity().x+" : "+fixtureB.getBody().getLinearVelocity().y);
+        //ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
+        //if (listener != null)
+        //{
+           // listener.endContact(contact);
+        //}
+        
     }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) 
+    {
+        //Gdx.app.log("CollisionHandler-preSolve A", "preSolve");
+        //Fixture fixtureA = contact.getFixtureA();
+        //Fixture fixtureB = contact.getFixtureB();
+        //ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
+        //if (listener != null)
+        //{
+        //    listener.preSolve(contact, oldManifold);
+        //}
+        
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) 
+    {
+    	processContact(contact);   
+    }
+    
 }
