@@ -101,7 +101,7 @@ public class SantaHead extends AbstractGameObject
 			// Start counting jump time from the beginning
 			timeJumping = 0;
 			jumpState = JUMP_STATE.JUMP_RISING;
-			body.setLinearVelocity(new Vector2(0,8));
+			body.setLinearVelocity(new Vector2(0,5.4f));
 
 			//System.out.println("Here");
 		}
@@ -135,8 +135,9 @@ public class SantaHead extends AbstractGameObject
 		Constants.ITEM_SNOWFLAKE_POWERUP_DURATION;
 		}
 		}
-		public boolean hasFlakePowerup () {
-		return hasFlakePowerup && timeLeftFlakePowerup > 0;
+		public boolean hasFlakePowerup () 
+		{
+			return hasFlakePowerup && timeLeftFlakePowerup > 0;
 		}
 	
 	
@@ -190,14 +191,14 @@ public class SantaHead extends AbstractGameObject
 		
 		// Draw image
 		reg = regHead;
-		batch.draw(reg.getTexture(), position.x + 1.2f, position.y+ 1.8f, origin.x,
-		origin.y, dimension.x, dimension.y, scale.x + 2.6f, scale.y+3.8f, rotation,
+		batch.draw(reg.getTexture(), position.x, position.y, origin.x,
+		origin.y, dimension.x, dimension.y, scale.x , scale.y, rotation,
 		reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(),
 		reg.getRegionHeight(), viewDirection == VIEW_DIRECTION.LEFT,
 		false);
 		
 		// Draw Santa
-		//batch.draw(Assets.instance.santa.body,0.9f,1.5f,2.6f,3.8f);
+		//batch.draw(Assets.instance.santa.body2,0.9f,1.5f,2.6f,3.8f);
 		
 		// Reset color to white
 		batch.setColor(1, 1, 1, 1);

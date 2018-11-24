@@ -32,7 +32,7 @@ public class Platform extends AbstractGameObject
 		
 		private void init () 
 		{
-			dimension.set(1, 2.5f);
+			dimension.set(1.0f, 1.9f);
 			regMiddle = Assets.instance.Platform.flat;
 			// Start length of this rock
 			setLength(1);

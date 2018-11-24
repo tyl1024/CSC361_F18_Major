@@ -22,13 +22,17 @@ public class CameraHelper
 	public CameraHelper () 
 	{
 		position = new Vector2();
-		zoom = 2.4f;
+		//zoom = 2.4f;
+		zoom = 1.0f;
 	}
 	public void update (float deltaTime)
 	{
 		if (!hasTarget()) return;
 		position.x = target.position.x  + target.origin.x;
 		position.y = target.position.y + target.origin.y;
+
+    	// Prevent camera from moving down too far
+    	position.y = Math.max(-1f, position.y);
 	}
 	
 	public void setPosition (float x, float y) 
@@ -57,9 +61,9 @@ public class CameraHelper
 	
 	public void applyTo (OrthographicCamera camera) 
 	{
-		camera.position.x = position.x + 13.0f;
-		camera.position.y = position.y + 4.9f;
-		camera.zoom = zoom + .79f;
+		camera.position.x = position.x; // 13.0f;
+		camera.position.y = position.y + -.5f; //4.9f;
+		camera.zoom = zoom;// + .79f;
 		camera.update();
 	}
 	

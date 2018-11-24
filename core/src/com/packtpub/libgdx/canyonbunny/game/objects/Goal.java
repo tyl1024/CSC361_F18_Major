@@ -41,10 +41,16 @@ public class Goal extends AbstractGameObject
 	 */
 	public void render (SpriteBatch batch) 
 	{
+
 		TextureRegion reg = null;
 		
 		reg = regGoal;
-		batch.draw(Assets.instance.levelDecoration.goal,position.x -1.5f,position.y + 1.5f, 5.5f, 5.5f);
+		batch.draw(reg.getTexture(), position.x - origin.x,
+				   position.y - origin.y, origin.x, origin.y, dimension.x,
+				   dimension.y, scale.x, scale.y, rotation,
+				   reg.getRegionX(), reg.getRegionY(),
+				   reg.getRegionWidth(), reg.getRegionHeight(),
+				   false, false);
 	}
 	
 }

@@ -137,7 +137,7 @@ public class Level
 			else if (BLOCK_TYPE.ITEM_SNOWFLAKE.sameColor(currentPixel)) 
 			{
 				obj = new Snowflake();
-				offsetHeight = -1.5f;
+				offsetHeight = -.1f;
 				obj.position.set(pixelX,baseHeight * obj.dimension.y
 				+ offsetHeight);
 				flake.add((Snowflake)obj);
@@ -146,7 +146,7 @@ public class Level
 			else if (BLOCK_TYPE.ITEM_PRESENT.sameColor(currentPixel)) 
 			{
 				obj = new Presents();
-				offsetHeight = -1.5f;
+				offsetHeight = -.9f;
 				obj.position.set(pixelX,baseHeight * obj.dimension.y
 				+ offsetHeight);
 				gift.add((Presents)obj);
@@ -155,7 +155,7 @@ public class Level
 			else if (BLOCK_TYPE.GOAL.sameColor(currentPixel)) 
 			{
 				obj = new Goal();
-				offsetHeight = -7.0f;
+				offsetHeight = -6.5f;
 				obj.position.set(pixelX, baseHeight + offsetHeight);     //Tyler added from page 343. Adds end goal to level. Marked in red on png file
 				goal = (Goal)obj;	
 			}

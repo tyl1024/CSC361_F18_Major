@@ -31,6 +31,8 @@ public class Presents extends AbstractGameObject
 	private void init() 
 	{
 		dimension.set(0.5f, 0.5f);
+        regPresent = Assets.instance.gift.gift;
+
 		
 		collected = false;
 	}
@@ -44,11 +46,15 @@ public class Presents extends AbstractGameObject
 		if (collected) return;
 		
 		TextureRegion reg = null;
+        reg = regPresent;
 		
 		// Set bounding box for collision detection
 		bounds.set(0, 0, dimension.x, dimension.y);
-		
-		batch.draw(Assets.instance.gift.gift, position.x, position.y + 4.2f, 1.5f,1.5f);
+	
+		  batch.draw(reg.getTexture(), position.x, position.y,
+                  origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y,
+                  rotation, reg.getRegionX(), reg.getRegionY(),
+                  reg.getRegionWidth(), reg.getRegionHeight(), false, false);
 		
 	}
 	

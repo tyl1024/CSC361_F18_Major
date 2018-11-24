@@ -6,20 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.mygdx.game.WorldController;
@@ -59,7 +45,7 @@ public class physicsTest implements ContactListener
         Fixture fixtureB = contact.getFixtureB();
         AbstractGameObject objA = (AbstractGameObject) fixtureA.getBody().getUserData();
         AbstractGameObject objB = (AbstractGameObject) fixtureB.getBody().getUserData();
-        if ((objA instanceof SantaHead) && (objB instanceof Presents))
+        if (((objA instanceof SantaHead) && (objB instanceof Presents)) || ((objA instanceof Presents) && (objB instanceof SantaHead)))
         {
             processPresentContact(fixtureA, fixtureB);
         }
@@ -69,7 +55,7 @@ public class physicsTest implements ContactListener
             processRockContact(fixtureA,fixtureB);
         }
         
-        if ((objA instanceof SantaHead) && (objB instanceof Snowflake))
+        if (((objA instanceof SantaHead) && (objB instanceof Snowflake)) || ((objA instanceof Snowflake) && (objB instanceof SantaHead)))
         {
             processSnowflakeContact(fixtureA,fixtureB);
         }
@@ -83,13 +69,13 @@ public class physicsTest implements ContactListener
     
     /**
      * Handles collision between boy and candy corn
-     * @param boyFixture
-     * @param candyCornFixture
+     * @param bod2Fixture
+     * @param presentFixture
      */
     private void processPresentContact(Fixture body2Fixture, Fixture presentFixture)
     {
-        SantaHead body2 = (SantaHead) body2Fixture.getBody().getUserData();
-        Presents gift = (Presents) presentFixture.getBody().getUserData();
+        SantaHead body2 = (SantaHead) presentFixture.getBody().getUserData();
+        Presents gift = (Presents) body2Fixture.getBody().getUserData();
         gift.collected = true;
         controller.score += gift.getScore();
         Gdx.app.log("CollisionHandler", "Presents collected");
@@ -144,47 +130,59 @@ public class physicsTest implements ContactListener
      */
     private void processSnowflakeContact(Fixture body2Fixture, Fixture snowflakeFixture)
     {
-        SantaHead boy = (SantaHead) body2Fixture.getBody().getUserData();
-        Snowflake flake = (Snowflake) snowflakeFixture.getBody().getUserData();
+        SantaHead boy = (SantaHead) snowflakeFixture.getBody().getUserData();
+        Snowflake flake = (Snowflake) body2Fixture.getBody().getUserData();
         flake.collected = true;
         controller.score += flake.getScore();
         controller.level.body2.setFlakePowerup(true);
         Gdx.app.log("CollisionHandler", "Powerup Flake collected");
     }
 
+    
     @Override
     public void beginContact(Contact contact) 
     {
-        //Fixture fixtureA = contact.getFixtureA();
-        //Fixture fixtureB = contact.getFixtureB();
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+        processContact(contact);
 
-        //Gdx.app.log("CollisionHandler-begin A", "begin");
+        Gdx.app.log("CollisionHandler-begin A", "begin");
 
-        //ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
-        //if (listener != null)
-        //{
-        //    listener.beginContact(contact);
-//    }    
+        ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
+        if (listener != null)
+        {
+            listener.beginContact(contact);
+     }    
+    }
+    
+    private ContactListener getListener(short categoryA, short categoryB)
+	   {
+		ObjectMap<Short, ContactListener> listenerCollection = listeners.get(categoryA);
+		if (listenerCollection == null)
+		{
+		    return null;
+		}
+		return listenerCollection.get(categoryB);
     }
 
-    @Override
+    
     public void endContact(Contact contact) 
     {
-        //Fixture fixtureA = contact.getFixtureA();
-        //Fixture fixtureB = contact.getFixtureB();
+    	Fixture fixtureA = contact.getFixtureA();
+    	Fixture fixtureB = contact.getFixtureB();
 
-        //Gdx.app.log("CollisionHandler-end A", "end");
+    	Gdx.app.log("CollisionHandler-end A", "end");
 
-        // Gdx.app.log("CollisionHandler-end A", fixtureA.getBody().getLinearVelocity().x+" : "+fixtureA.getBody().getLinearVelocity().y);
-        // Gdx.app.log("CollisionHandler-end B", fixtureB.getBody().getLinearVelocity().x+" : "+fixtureB.getBody().getLinearVelocity().y);
-        //ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
-        //if (listener != null)
-        //{
-           // listener.endContact(contact);
-        //}
+    	 Gdx.app.log("CollisionHandler-end A", fixtureA.getBody().getLinearVelocity().x+" : "+fixtureA.getBody().getLinearVelocity().y);
+    	 Gdx.app.log("CollisionHandler-end B", fixtureB.getBody().getLinearVelocity().x+" : "+fixtureB.getBody().getLinearVelocity().y);
+    	ContactListener listener = getListener(fixtureA.getFilterData().categoryBits, fixtureB.getFilterData().categoryBits);
+    	if (listener != null)
+    	{
+    	    listener.endContact(contact);
+    	}
         
     }
-
+    
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) 
     {
@@ -202,7 +200,7 @@ public class physicsTest implements ContactListener
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) 
     {
-    	processContact(contact);   
+    	this.processContact(contact); 
     }
     
 }
