@@ -38,6 +38,8 @@ public class WorldController extends InputAdapter
 	public int lives;
 	public int score;
 	public World b2world;
+	private float timeLeftGameOverDelay;
+
 	
 	private static final String TAG = 
 		WorldController.class.getName();
@@ -89,6 +91,17 @@ public class WorldController extends InputAdapter
 	{
 		handleDebugInput(deltaTime);
 		handleInputGame(deltaTime);
+		
+		if (!isGameOver() && isPlayerInWater())
+		{
+			
+			lives--;
+			if (isGameOver())
+				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
+			else
+				initLevel();
+		}
+		
 		level.update(deltaTime);
 		b2world.step(deltaTime, 8, 3);
 		cameraHelper.update(deltaTime);
@@ -275,12 +288,12 @@ public class WorldController extends InputAdapter
 		   // Player Movement
 		   if (Gdx.input.isKeyPressed(Keys.A)) 
 		   {
-			   level.body2.body.setLinearVelocity(new Vector2(-5,0));
+			   level.body2.body.setLinearVelocity(new Vector2(-4,0));
 			   level.body2.velocity.x = -5.0f;
 		   } 
 		   else if (Gdx.input.isKeyPressed(Keys.D)) 
 		   {
-			   level.body2.body.setLinearVelocity(new Vector2(5,0));
+			   level.body2.body.setLinearVelocity(new Vector2(4,0));
 			   level.body2.velocity.x = 5.0f;
 		   } 
 		   else 
@@ -302,4 +315,16 @@ public class WorldController extends InputAdapter
 	       }
 	   }
    	}	
+	
+	//Checks if there are still lives available
+	public boolean isGameOver() 
+	{
+		return lives < 0;
+	}
+	
+	//checks to see if player comes in contact with water
+	public boolean isPlayerInWater() 
+	{
+		return level.body2.position.y < -3;
+	}
 }
