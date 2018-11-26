@@ -39,4 +39,14 @@ public class Constants
 	// Added this from p206. Sets time limit for feather power up
 	public static final float ITEM_SNOWFLAKE_POWERUP_DURATION = 9;
 	
+	public static final String PREFERENCES = "CanyonBunny.prefs";
+	
+	//packing images for main screen and changing preferences
+	public static final String TEXTURE_ATLAS_UI = "images-ui/canyonbunny-ui.pack.atlas"; // 2
+	public static final String TEXTURE_ATLAS_LIBGDX_UI = "images-ui/uiskin.atlas"; // 4
+	
+	// Location of description file for skins
+	public static final String SKIN_LIBGDX_UI = "images-ui/uiskin.json"; // 3
+	public static final String SKIN_CANYONBUNNY_UI ="images-ui/canyonbunny-ui.json";
+	
 }

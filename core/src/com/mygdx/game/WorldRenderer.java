@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.packtpub.libgdx.canyonbunny.util.Assets;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
 
 public class WorldRenderer implements Disposable
 {
@@ -150,6 +151,20 @@ public class WorldRenderer implements Disposable
 			fpsFont.setColor(1, 1, 1, 1); // white
 		}
 	
+	//prompts user with game over message once out of lives
+	private void renderGuiGameOverMessage (SpriteBatch batch) 
+	{
+		float x = cameraGUI.viewportWidth / 2;
+		float y = cameraGUI.viewportHeight / 2;
+		if (worldController.isGameOver()) 
+		{
+			BitmapFont fontGameOver = Assets.instance.fonts.defaultBig;
+			fontGameOver.setColor(1, 0.75f, 0.25f, 1);
+			fontGameOver.draw(batch, "GAME OVER", x, y, 0, Align.center, false);		// need to fix alignment center
+			fontGameOver.setColor(1, 1, 1, 1);
+		}
+	}
+	
 		//Group whole GUI together with score, extra lives and FPS
 		private void renderGui (SpriteBatch batch) 
 		{
@@ -161,7 +176,12 @@ public class WorldRenderer implements Disposable
 			// draw extra lives icon + text (anchored to top right edge)
 			renderGuiExtraLive(batch);
 			// draw FPS text (anchored to bottom right edge)
+			if (GamePreferences.instance.showFpsCounter)
 			renderGuiFpsCounter(batch);
+			// draw FPS text (anchored to bottom right edge)
+			renderGuiFpsCounter(batch);
+			// draw game over text
+			renderGuiGameOverMessage(batch);
 			batch.end();
 		}
 }

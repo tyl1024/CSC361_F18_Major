@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.packtpub.libgdx.canyonbunny.util.CharacterSkin;
+import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
 
 /**
  * @author Owen Burnham (Assignment 5)
@@ -185,9 +187,15 @@ public class SantaHead extends AbstractGameObject
 	{
 		TextureRegion reg = null;
 		// Set special color when game object has a feather power-up
-		if (hasFlakePowerup) {
-		batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
+		if (hasFlakePowerup) 
+		{
+			batch.setColor(1.0f, 0.8f, 0.0f, 1.0f);
 		}
+		
+		// Apply Skin Color
+		batch.setColor(
+		CharacterSkin.values()[GamePreferences.instance.charSkin]
+		.getColor());
 		
 		// Draw image
 		reg = regHead;

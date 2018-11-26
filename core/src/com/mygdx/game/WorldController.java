@@ -30,6 +30,8 @@ import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead.JUMP_STATE;
 import com.packtpub.libgdx.canyonbunny.game.objects.Snowflake;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.packtpub.libgdx.canyonbunny.*;
+import com.badlogic.gdx.Game;
+import com.packtpub.libgdx.canyonbunny.screens.MenuScreen;
 
 
 public class WorldController extends InputAdapter
@@ -39,6 +41,7 @@ public class WorldController extends InputAdapter
 	public int score;
 	public World b2world;
 	private float timeLeftGameOverDelay;
+	private Game game;
 
 	
 	private static final String TAG = 
@@ -49,8 +52,9 @@ public class WorldController extends InputAdapter
 	/**
 	 * constructor 
 	 */
-	public WorldController() 
+	public WorldController(Game game) 
 	{
+		this.game = game;
 		init();
 	}
 	
@@ -98,7 +102,8 @@ public class WorldController extends InputAdapter
 			lives--;
 			if (isGameOver())
 				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
-			else
+			if (timeLeftGameOverDelay < 0) backToMenu();
+		else
 				initLevel();
 		}
 		
@@ -160,6 +165,10 @@ public class WorldController extends InputAdapter
 		{
 			init();
 			Gdx.app.debug(TAG, "Game world resetted");
+		}
+		else if (keycode == Keys.ESCAPE || keycode == Keys.BACK)
+		{
+			backToMenu();
 		}
 		
 		return false;
@@ -326,5 +335,12 @@ public class WorldController extends InputAdapter
 	public boolean isPlayerInWater() 
 	{
 		return level.body2.position.y < -3;
+	}
+
+	//sends player to main menu once out of lives
+	private void backToMenu ()
+	{
+		// switch to menu screen
+		game.setScreen(new MenuScreen(game));
 	}
 }
