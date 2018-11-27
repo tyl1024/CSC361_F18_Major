@@ -6,6 +6,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Align;
@@ -17,7 +18,7 @@ import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
 
 public class WorldRenderer implements Disposable
 {
-	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 	private WorldController worldController;
@@ -53,6 +54,10 @@ public class WorldRenderer implements Disposable
 	//game objects are drawn over others.
 	public void render ()
 	{
+		Texture img = new Texture("images/winterBackground.png");
+		batch.begin();
+		batch.draw(img,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		batch.end();
 		renderWorld(batch);
 		renderGui(batch);
 	}
@@ -168,7 +173,8 @@ public class WorldRenderer implements Disposable
 		//Group whole GUI together with score, extra lives and FPS
 		private void renderGui (SpriteBatch batch) 
 		{
-			batch.setProjectionMatrix(cameraGUI.combined);
+			
+			batch.setProjectionMatrix(cameraGUI.combined);			
 			batch.begin();
 			// draw collected gold coins icon + text
 			// (anchored to top left edge)
@@ -183,5 +189,6 @@ public class WorldRenderer implements Disposable
 			// draw game over text
 			renderGuiGameOverMessage(batch);
 			batch.end();
+			
 		}
 }

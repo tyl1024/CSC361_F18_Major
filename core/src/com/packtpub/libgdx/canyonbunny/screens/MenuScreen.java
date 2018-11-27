@@ -76,7 +76,7 @@ public class MenuScreen extends AbstractGameScreen
 		}
 			stage.act(deltaTime);
 			stage.draw();
-			stage.setDebugAll(true);
+			stage.setDebugAll(false);
 	}
 	
 	@Override public void resize (int width, int height) 
@@ -133,13 +133,13 @@ public class MenuScreen extends AbstractGameScreen
 		{
 			Table layer = new Table();
 			// + Coins
-			imgCoins = new Image(skinCanyonBunny, "coins");
-			layer.addActor(imgCoins);
-			imgCoins.setPosition(135, 80);
+			//imgCoins = new Image(skinCanyonBunny, "coins");
+			//layer.addActor(imgCoins);
+			//imgCoins.setPosition(135, 80);
 			// + Bunny
 			imgBunny = new Image(skinCanyonBunny, "bunny");
 			layer.addActor(imgBunny);
-			imgBunny.setPosition(355, 40);
+			imgBunny.setPosition(305, 40);
 			return layer;
 		}
 		private Table buildLogosLayer ()
@@ -152,7 +152,7 @@ public class MenuScreen extends AbstractGameScreen
 			layer.row().expandY();
 			// + Info Logos
 			imgInfo = new Image(skinCanyonBunny, "info");
-			layer.add(imgInfo).bottom();
+			layer.add(imgInfo).left().bottom();
 			if (debugEnabled) layer.debug();
 			return layer;
 		}
@@ -282,7 +282,7 @@ public class MenuScreen extends AbstractGameScreen
 			// + Title: "Audio"
 			tbl.pad(10, 10, 0, 10);
 			tbl.add(new Label("Audio", skinLibgdx, "default-font",
-			Color.ORANGE)).colspan(3);
+			Color.BLUE)).colspan(3);
 			tbl.row();
 			tbl.columnDefaults(0).padRight(10);
 			tbl.columnDefaults(1).padRight(10);
@@ -309,7 +309,7 @@ public class MenuScreen extends AbstractGameScreen
 			// + Title: "Character Skin"
 			tbl.pad(10, 10, 0, 10);
 			tbl.add(new Label("Character Skin", skinLibgdx,
-			"default-font", Color.ORANGE)).colspan(2);
+			"default-font", Color.BLUE)).colspan(2);
 			tbl.row();
 			// + Drop down box filled with skin items
 			selCharSkin = new SelectBox<CharacterSkin>(skinLibgdx);

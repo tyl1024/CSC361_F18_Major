@@ -38,13 +38,7 @@ public class CanyonBunnyMain extends Game
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 		// Load assets
 		Assets.instance.init(new AssetManager());
-		//img = new Texture("images/winterBackground.png");
-		
-         //	batch.begin();
-		//batch.draw(img,0,0,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		//batch.end();
-
-		//paused = false;
+		paused = false;
 		//Assets.instance.init(new AssetManager());
 		// Start game at menu screen
 		setScreen(new MenuScreen(this));
