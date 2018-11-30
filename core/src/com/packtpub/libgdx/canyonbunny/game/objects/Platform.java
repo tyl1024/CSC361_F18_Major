@@ -63,7 +63,7 @@ public class Platform extends AbstractGameObject
 			{
 				batch.draw(reg.getTexture(), position.x + relX, position.y
 				+ relY, origin.x, origin.y, dimension.x, dimension.y,
-				scale.x + .2f, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),
+				scale.x + .02f, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),
 				reg.getRegionWidth(), reg.getRegionHeight(), false, false);
 				relX += dimension.x;
 			}

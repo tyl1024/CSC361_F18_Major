@@ -14,6 +14,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.packtpub.libgdx.canyonbunny.util.CharacterSkin;
 import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 
 /**
  * @author Owen Burnham (Assignment 5)
@@ -37,10 +39,8 @@ public class SantaHead extends AbstractGameObject
 	public JUMP_STATE jumpState;
 	public boolean hasFlakePowerup;
 	public float timeLeftFlakePowerup;
+	public ParticleEffect dustParticles = new ParticleEffect();
 
-	
-	
-	
 	// different directions views
 	public enum VIEW_DIRECTION { LEFT, RIGHT }
 	
@@ -90,6 +90,9 @@ public class SantaHead extends AbstractGameObject
 		// Power-ups
 		hasFlakePowerup = false;
 		timeLeftFlakePowerup = 0;
+		// Particles
+		dustParticles.load(Gdx.files.internal("particles/dustParticle.pfx"),
+				Gdx.files.internal("particles"));
 
 	}
 	
@@ -97,6 +100,7 @@ public class SantaHead extends AbstractGameObject
 	{
 		switch (jumpState) 
 		{
+		
 		case GROUNDED: // Character is standing on a platform
 		if (jumpKeyPressed)
 		{
@@ -104,29 +108,24 @@ public class SantaHead extends AbstractGameObject
 			timeJumping = 0;
 			jumpState = JUMP_STATE.JUMP_RISING;
 			body.setLinearVelocity(new Vector2(0,5.4f));
-
-			//System.out.println("Here");
+			
 		}
 		break;
 		case JUMP_RISING: // Rising in the air
 		if (!jumpKeyPressed)
 			jumpState = JUMP_STATE.JUMP_FALLING;
-			//System.out.println("Here2");
+
 		break;
 		case FALLING:// Falling down
-			//System.out.println("Here5");
 		case JUMP_FALLING: // Falling down after jump
 			if (jumpKeyPressed && hasFlakePowerup) 
 			{
-				    //System.out.println("Here3");
 					timeJumping = JUMP_TIME_OFFSET_FLYING;
 					jumpState = JUMP_STATE.JUMP_RISING;
-					//System.out.println("Here4");
 			}
-		//System.out.println("Here6");
 				break;
-				}
-		//System.out.println("Here8");
+		}
+	
 	}	
 			
 	public void setFlakePowerup (boolean pickedUp) 
@@ -163,6 +162,7 @@ public class SantaHead extends AbstractGameObject
 				timeLeftFlakePowerup = 0;
 				setFlakePowerup(false);
 			}
+			dustParticles.update(deltaTime);
 		}
 			
 			
@@ -186,6 +186,9 @@ public class SantaHead extends AbstractGameObject
 	public void render (SpriteBatch batch) 
 	{
 		TextureRegion reg = null;
+		// Draw Particles
+		dustParticles.draw(batch);
+		
 		// Set special color when game object has a feather power-up
 		if (hasFlakePowerup) 
 		{
@@ -213,32 +216,40 @@ public class SantaHead extends AbstractGameObject
 	}
 	
 	@Override
-	protected void updateMotionY (float deltaTime) {
-	switch (jumpState) {
-	case GROUNDED:
-	jumpState = JUMP_STATE.FALLING;
-	break;
-	case JUMP_RISING:
-	// Keep track of jump time
-	timeJumping += deltaTime;
-	// Jump time left?
-	if (timeJumping <= JUMP_TIME_MAX) {
-	// Still jumping
-	velocity.y = terminalVelocity.y;
+	protected void updateMotionY (float deltaTime)
+	{
+		switch (jumpState)
+		{
+			case GROUNDED:
+			jumpState = JUMP_STATE.FALLING;
+			break;
+			case JUMP_RISING:
+			// Keep track of jump time
+			timeJumping += deltaTime;
+			// Jump time left?
+			if (timeJumping <= JUMP_TIME_MAX) 
+			{
+				// Still jumping
+				velocity.y = terminalVelocity.y;
+			}
+			break;
+			case FALLING:
+			break;
+			case JUMP_FALLING:
+				// Add delta times to track jump time
+				timeJumping += deltaTime;
+			// Jump to minimal height if jump key was pressed too short
+			if (timeJumping > 0 && timeJumping <= JUMP_TIME_MIN)
+			{
+				// Still jumping
+				velocity.y = terminalVelocity.y;
+			}
+		}
+			if (jumpState != JUMP_STATE.GROUNDED)
+			{
+				dustParticles.allowCompletion();
+				super.updateMotionY(deltaTime);
+			}
 	}
-	break;
-	case FALLING:
-	break;
-	case JUMP_FALLING:
-	// Add delta times to track jump time
-	timeJumping += deltaTime;
-	// Jump to minimal height if jump key was pressed too short
-	if (timeJumping > 0 && timeJumping <= JUMP_TIME_MIN) {
-	// Still jumping
-	velocity.y = terminalVelocity.y;
-	}
-	}
-	if (jumpState != JUMP_STATE.GROUNDED)
-	super.updateMotionY(deltaTime);
-	}
+
 }
