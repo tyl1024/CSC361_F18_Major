@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.packtpub.libgdx.canyonbunny.Level.BLOCK_TYPE;
 import com.packtpub.libgdx.canyonbunny.game.objects.AbstractGameObject;
+import com.packtpub.libgdx.canyonbunny.game.objects.Clouds;
 import com.packtpub.libgdx.canyonbunny.game.objects.Goal;
 import com.packtpub.libgdx.canyonbunny.game.objects.Mountains;
 import com.packtpub.libgdx.canyonbunny.game.objects.Platform;
@@ -61,6 +62,7 @@ public class Level
 		public Array<Snowflake> flake;
 		
 		// decoration
+		public Clouds clouds;
 		public Mountains mountains;
 		public WaterOverlay waterOverlay;
 		
@@ -172,6 +174,8 @@ public class Level
 			}
 			}
 			// decoration
+			clouds = new Clouds(pixmap.getWidth());
+			clouds.position.set(0, 2);
 			mountains = new Mountains(pixmap.getWidth());
 			mountains.position.set(-1, -1);
 			waterOverlay = new WaterOverlay(pixmap.getWidth());
@@ -200,6 +204,8 @@ public class Level
 			// Draw Feathers
 			for (Snowflake flake : flake)
 			flake.render(batch);	
+			// Draw Clouds
+			clouds.render(batch);
 		}
 		public void update (float deltaTime) 
 		{
@@ -210,6 +216,7 @@ public class Level
 			gift.update(deltaTime);
 			for(Snowflake flake : flake)
 				flake.update(deltaTime);
+			clouds.update(deltaTime);
 		}
 }
 		

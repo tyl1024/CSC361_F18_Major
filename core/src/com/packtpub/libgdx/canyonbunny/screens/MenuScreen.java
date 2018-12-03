@@ -35,7 +35,6 @@ public class MenuScreen extends AbstractGameScreen
 	private Image imgBackground;
 	private Image imgLogo;
 	private Image imgInfo;
-	private Image imgCoins;
 	private Image imgBunny;
 	private Button btnMenuPlay;
 	private Button btnMenuOptions;

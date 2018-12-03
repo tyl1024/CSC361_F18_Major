@@ -94,7 +94,19 @@ public class WorldController extends InputAdapter
 	public void update(float deltaTime) 
 	{
 		handleDebugInput(deltaTime);
+		if (isGameOver())
+		{
+			timeLeftGameOverDelay -= deltaTime;
+			if (timeLeftGameOverDelay < 0) backToMenu();
+		else
+		{
+			handleInputGame(deltaTime);
+		}
+	}
 		handleInputGame(deltaTime);
+		level.update(deltaTime);
+		b2world.step(deltaTime, 8, 3);
+		cameraHelper.update(deltaTime);
 		
 		if (!isGameOver() && isPlayerInWater())
 		{
@@ -102,14 +114,9 @@ public class WorldController extends InputAdapter
 			lives--;
 			if (isGameOver())
 				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
-			if (timeLeftGameOverDelay < 0) backToMenu();
 		else
 				initLevel();
 		}
-		
-		level.update(deltaTime);
-		b2world.step(deltaTime, 8, 3);
-		cameraHelper.update(deltaTime);
 	}
 	
 	private void handleDebugInput (float deltaTime)
