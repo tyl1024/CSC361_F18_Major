@@ -164,13 +164,14 @@ public class AssetLevelDecoration
 		public final AtlasRegion cloud02;
 		public final AtlasRegion cloud03;
 
+
 		
 		
 		public AssetLevelDecoration (TextureAtlas atlas) 
 		{
-			cloud01 = atlas.findRegion("cloud01");
-			cloud02 = atlas.findRegion("cloud02");
-			cloud03 = atlas.findRegion("cloud03");
+			cloud01 = atlas.findRegion("clouds");
+			cloud02 = atlas.findRegion("clouds");
+			cloud03 = atlas.findRegion("clouds");
 			mountainBackground = atlas.findRegion("mountainBackground");
 			waterOverlay = atlas.findRegion("water_overlay");
 			goal = atlas.findRegion("goal");

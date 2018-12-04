@@ -25,6 +25,13 @@ cloud03
   orig: 182, 85
   offset: 0, 0
   index: -1
+clouds
+  rotate: false
+  xy: 983, 211
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
 goal
   rotate: false
   xy: 2, 33

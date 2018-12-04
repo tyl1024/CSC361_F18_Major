@@ -42,8 +42,8 @@ public class Clouds extends AbstractGameObject {
 		public void render(SpriteBatch batch) {
 			TextureRegion reg = regCloud;
 	         batch.draw(reg.getTexture(), position.x + origin.x,
-					   position.y + origin.y, origin.x, origin.y, dimension.x,
-					   dimension.y, scale.x, scale.y, rotation, reg.getRegionX(),
+					   position.y - 3.5f + origin.y, origin.x, origin.y, dimension.x,
+					   dimension.y, scale.x + 12.2f, scale.y + 6.2f, rotation, reg.getRegionX(),
 					   reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(),
 					   false, false);
 	         
@@ -64,7 +64,7 @@ public class Clouds extends AbstractGameObject {
 	 * initializes objects
 	 */
 	private void init() {
-		dimension.set(3.0f, 1.5f);
+		dimension.set(.75f, .95f);
 		regClouds = new Array<TextureRegion>();
 		regClouds.add(Assets.instance.levelDecoration.cloud01);
 		regClouds.add(Assets.instance.levelDecoration.cloud02);
@@ -101,11 +101,11 @@ public class Clouds extends AbstractGameObject {
 		
 		// speed 
 		Vector2 speed = new Vector2();
-		speed.x += 0.5f; // base speed
+		speed.x += 1.5f; // base speed
 		// random additional speed
-		speed.x += MathUtils.random(0.0f, 0.75f);	
+		speed.x += MathUtils.random(0.0f, 2.75f);	
 		cloud.terminalVelocity.set(speed);
-		speed.x *= -1; // move left
+		speed.x *= -2; // move left
 		cloud.velocity.set(speed);
 		
 		return cloud;
