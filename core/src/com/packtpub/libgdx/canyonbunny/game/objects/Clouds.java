@@ -46,8 +46,7 @@ public class Clouds extends AbstractGameObject {
 					   dimension.y, scale.x + 12.2f, scale.y + 6.2f, rotation, reg.getRegionX(),
 					   reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(),
 					   false, false);
-	         
-		}
+	     		}
 	}
 	
 	/**
