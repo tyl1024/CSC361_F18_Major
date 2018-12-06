@@ -42,7 +42,7 @@ public class WorldController extends InputAdapter
 	public World b2world;
 	private float timeLeftGameOverDelay;
 	private Game game;
-
+	public float livesVisual;
 	
 	private static final String TAG = 
 		WorldController.class.getName();
@@ -66,6 +66,7 @@ public class WorldController extends InputAdapter
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		lives = Constants.LIVES_START;
+		livesVisual = lives;
 		initLevel();
 	}
 	
@@ -119,6 +120,8 @@ public class WorldController extends InputAdapter
 		}
 		level.mountains.updateScrollPosition
 		(cameraHelper.getPosition());
+		if (livesVisual> lives)
+			livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
 	}
 	
 	private void handleDebugInput (float deltaTime)
