@@ -102,6 +102,11 @@ public class SantaHead extends AbstractGameObject
 		{
 		
 		case GROUNDED: // Character is standing on a platform
+		if (velocity.x != 0)
+		{
+				dustParticles.setPosition(position.x + dimension.x/2, position.y);
+				dustParticles.start();
+		}
 		if (jumpKeyPressed)
 		{
 			// Start counting jump time from the beginning

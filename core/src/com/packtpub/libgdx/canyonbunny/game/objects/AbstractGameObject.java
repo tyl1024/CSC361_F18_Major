@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 /**
- * @author Tyler Majoe
+ * @author Tyler Major
  * This class will hold all the common attributes
  * and fucntionalities that each of our game objects
  * inherit from
