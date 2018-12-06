@@ -16,6 +16,8 @@ import com.packtpub.libgdx.canyonbunny.game.objects.Presents;
 import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead;
 import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead.JUMP_STATE;
 import com.packtpub.libgdx.canyonbunny.game.objects.Snowflake;
+import com.packtpub.libgdx.canyonbunny.util.Assets;
+import com.packtpub.libgdx.canyonbunny.util.AudioManager;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -77,6 +79,7 @@ public class physicsTest implements ContactListener
         SantaHead body2 = (SantaHead) presentFixture.getBody().getUserData();
         Presents gift = (Presents) body2Fixture.getBody().getUserData();
         gift.collected = true;
+        AudioManager.instance.play(Assets.instance.sounds.pickupCoin);
         controller.score += gift.getScore();
         Gdx.app.log("CollisionHandler", "Presents collected");
     }
@@ -133,6 +136,7 @@ public class physicsTest implements ContactListener
         SantaHead boy = (SantaHead) snowflakeFixture.getBody().getUserData();
         Snowflake flake = (Snowflake) body2Fixture.getBody().getUserData();
         flake.collected = true;
+        AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
         controller.score += flake.getScore();
         controller.level.body2.setFlakePowerup(true);
         Gdx.app.log("CollisionHandler", "Powerup Flake collected");

@@ -24,6 +24,7 @@ import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.packtpub.libgdx.canyonbunny.util.Assets;
 import com.packtpub.libgdx.canyonbunny.util.CharacterSkin;
 import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
+import com.packtpub.libgdx.canyonbunny.util.AudioManager;
 
 public class MenuScreen extends AbstractGameScreen
 {
@@ -216,6 +217,7 @@ public class MenuScreen extends AbstractGameScreen
 		private void onPlayClicked () 
 		{
 			game.setScreen(new GameScreen(game));
+			AudioManager.instance.stopMusic();
 		}
 			
 		private void onOptionsClicked () 
@@ -261,6 +263,7 @@ public class MenuScreen extends AbstractGameScreen
 		{
 			saveSettings();
 			onCancelClicked();
+			AudioManager.instance.onSettingsUpdated();
 		}
 		
 		private void onCancelClicked() 
@@ -268,6 +271,7 @@ public class MenuScreen extends AbstractGameScreen
 			btnMenuPlay.setVisible(true);
 			btnMenuOptions.setVisible(true);
 			winOptions.setVisible(false);
+			AudioManager.instance.onSettingsUpdated();
 		}
 
 		private Table buildOptWinAudioSettings () 

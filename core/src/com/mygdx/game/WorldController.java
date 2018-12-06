@@ -28,6 +28,8 @@ import com.packtpub.libgdx.canyonbunny.game.objects.Presents;
 import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead;
 import com.packtpub.libgdx.canyonbunny.game.objects.SantaHead.JUMP_STATE;
 import com.packtpub.libgdx.canyonbunny.game.objects.Snowflake;
+import com.packtpub.libgdx.canyonbunny.util.Assets;
+import com.packtpub.libgdx.canyonbunny.util.AudioManager;
 import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.packtpub.libgdx.canyonbunny.*;
 import com.badlogic.gdx.Game;
@@ -111,10 +113,14 @@ public class WorldController extends InputAdapter
 		
 		if (!isGameOver() && isPlayerInWater())
 		{
-			
+			AudioManager.instance.play(Assets.instance.sounds.liveLost);
 			lives--;
 			if (isGameOver())
+			{
 				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
+				AudioManager.instance.play(Assets.instance.music.song01);
+			}
+
 		else
 				initLevel();
 		}
@@ -180,6 +186,7 @@ public class WorldController extends InputAdapter
 		}
 		else if (keycode == Keys.ESCAPE || keycode == Keys.BACK)
 		{
+			AudioManager.instance.play(Assets.instance.music.song01);
 			backToMenu();
 		}
 		

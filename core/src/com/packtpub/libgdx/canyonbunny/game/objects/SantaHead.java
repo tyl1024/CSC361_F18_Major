@@ -16,6 +16,8 @@ import com.packtpub.libgdx.canyonbunny.util.CharacterSkin;
 import com.packtpub.libgdx.canyonbunny.util.GamePreferences;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.math.MathUtils;
+import com.packtpub.libgdx.canyonbunny.util.AudioManager;
 
 /**
  * @author Owen Burnham (Assignment 5)
@@ -104,11 +106,13 @@ public class SantaHead extends AbstractGameObject
 		case GROUNDED: // Character is standing on a platform
 		if (velocity.x != 0)
 		{
+				
 				dustParticles.setPosition(position.x + dimension.x/2, position.y);
 				dustParticles.start();
 		}
 		if (jumpKeyPressed)
 		{
+			AudioManager.instance.play(Assets.instance.sounds.jump);
 			// Start counting jump time from the beginning
 			timeJumping = 0;
 			jumpState = JUMP_STATE.JUMP_RISING;
@@ -125,6 +129,9 @@ public class SantaHead extends AbstractGameObject
 		case JUMP_FALLING: // Falling down after jump
 			if (jumpKeyPressed && hasFlakePowerup) 
 			{
+				AudioManager.instance.play(
+						Assets.instance.sounds.jumpWithFeather, 1,
+						MathUtils.random(1.0f, 1.1f));
 					timeJumping = JUMP_TIME_OFFSET_FLYING;
 					jumpState = JUMP_STATE.JUMP_RISING;
 			}
