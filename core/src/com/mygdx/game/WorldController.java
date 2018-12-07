@@ -3,6 +3,22 @@
  */
 package com.mygdx.game;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+import javax.swing.JOptionPane;
+
 import com.badlogic.gdx.Application.ApplicationType;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -34,6 +50,7 @@ import com.packtpub.libgdx.canyonbunny.util.Constants;
 import com.packtpub.libgdx.canyonbunny.*;
 import com.badlogic.gdx.Game;
 import com.packtpub.libgdx.canyonbunny.screens.MenuScreen;
+import com.badlogic.gdx.utils.Disposable;
 
 
 public class WorldController extends InputAdapter
@@ -45,6 +62,7 @@ public class WorldController extends InputAdapter
 	private float timeLeftGameOverDelay;
 	private Game game;
 	public float livesVisual;
+	public  boolean goalReached;
 	
 	private static final String TAG = 
 		WorldController.class.getName();
@@ -72,6 +90,29 @@ public class WorldController extends InputAdapter
 		initLevel();
 	}
 	
+	public Entry<Integer, String> getHighestScore() throws NumberFormatException, IOException
+	{
+		BufferedReader reader = new BufferedReader(
+                new FileReader(new File("../core/assets/images/myFile.txt")));
+		TreeMap<Integer, String> highestScores = new TreeMap<Integer, String>();
+		
+		String line = null;
+		while ((line = reader.readLine()) != null) 
+		{ // read your file line by line
+		String[] playerScores = line.split(": ");
+		highestScores.put(Integer.valueOf(playerScores[1]), playerScores[0]);
+		}
+		
+		// iterate in descending order
+		for (Integer score : highestScores.descendingKeySet()) 
+		{
+		String highScore = (highestScores.get(score) + ": " + score);
+		}
+		Entry<Integer, String> luckyNumber = highestScores.lastEntry();
+		reader.close();
+		return luckyNumber;
+	}
+	
 	
 	private Pixmap createProceduralPixmap (int width, int height) 
 	{
@@ -89,13 +130,36 @@ public class WorldController extends InputAdapter
 		return pixmap;
 	}
 	
+
+
+	
 	/**
 	 * contains game logic
 	 * called several hundred times per sec
 	 * @param deltaTime
+	 * @throws IOException 
+	 * @throws NumberFormatException 
 	 */
-	public void update(float deltaTime) 
+	public void update(float deltaTime) throws NumberFormatException, IOException 
 	{
+		BufferedReader reader = new BufferedReader(
+                new FileReader(new File("../core/assets/images/myFile.txt")));
+		TreeMap<Integer, String> highestScores = new TreeMap<Integer, String>();
+		
+		String line = null;
+		while ((line = reader.readLine()) != null) 
+		{ // read your file line by line
+		String[] playerScores = line.split(": ");
+		highestScores.put(Integer.valueOf(playerScores[1]), playerScores[0]);
+		}
+		
+		// iterate in descending order
+		for (Integer score : highestScores.descendingKeySet()) 
+		{
+		String highScore = (highestScores.get(score) + ": " + score);
+		}
+		Entry<Integer, String> luckyNumber = highestScores.lastEntry();
+		reader.close();
 		handleDebugInput(deltaTime);
 		if (isGameOver())
 		{
@@ -117,6 +181,7 @@ public class WorldController extends InputAdapter
 			lives--;
 			if (isGameOver())
 			{
+				JOptionPane.showMessageDialog(null, luckyNumber);
 				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
 				AudioManager.instance.play(Assets.instance.music.song01);
 			}
@@ -199,6 +264,7 @@ public class WorldController extends InputAdapter
 	private void initLevel() 
 	{
 		score = 0;
+		goalReached = false;
 		level = new Level (Constants.LEVEL_01);
 		cameraHelper.setTarget(level.body2);
 		initPhysics();
@@ -362,4 +428,5 @@ public class WorldController extends InputAdapter
 		// switch to menu screen
 		game.setScreen(new MenuScreen(game));
 	}
+	
 }

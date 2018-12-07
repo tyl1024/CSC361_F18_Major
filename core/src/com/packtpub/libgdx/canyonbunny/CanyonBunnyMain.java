@@ -5,8 +5,14 @@ package com.packtpub.libgdx.canyonbunny;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
+import com.packtpub.libgdx.canyonbunny.game.objects.Presents;
 import com.packtpub.libgdx.canyonbunny.screens.MenuScreen;
 import com.packtpub.libgdx.canyonbunny.util.Assets;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -24,6 +30,7 @@ public class CanyonBunnyMain extends Game
 	private com.mygdx.game.WorldController worldController;
 	private WorldRenderer worldRenderer;
 	private boolean paused;
+	String fileName = "../core/assets/images/myFile.txt";
 	
 	SpriteBatch batch;
 	Texture img;
@@ -46,8 +53,7 @@ public class CanyonBunnyMain extends Game
 		AudioManager.instance.play(Assets.instance.music.song01);
 		// Start game at menu screen
 		setScreen(new MenuScreen(this));
-	
-		
 		
 	}
+
 }

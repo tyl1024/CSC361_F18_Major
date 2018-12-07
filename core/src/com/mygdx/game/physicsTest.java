@@ -84,6 +84,7 @@ public class physicsTest implements ContactListener
         Gdx.app.log("CollisionHandler", "Presents collected");
     }
     
+    
     /**
      * Handles collision between santa and rock
      * @param bodyFixture

@@ -210,6 +210,8 @@ public class AssetLevelDecoration
 		public final AtlasRegion cloud01;
 		public final AtlasRegion cloud02;
 		public final AtlasRegion cloud03;
+		public final AtlasRegion cane;
+
 
 
 		
@@ -223,6 +225,8 @@ public class AssetLevelDecoration
 			mountainRight = atlas.findRegion("mountain_right");			
 			waterOverlay = atlas.findRegion("water_overlay");
 			goal = atlas.findRegion("goal");
+			cane = atlas.findRegion("cane");
+
 			
 		}
 	}

@@ -61,7 +61,7 @@ public class Presents extends AbstractGameObject
 	/**
 	 * Made by Philip Deppen (Assignment 5)
 	 */
-	public int getScore() 
+	public static int getScore() 
 	{
 		return 50;
 	}

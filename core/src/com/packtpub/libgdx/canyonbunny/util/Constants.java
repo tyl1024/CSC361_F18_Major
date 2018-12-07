@@ -49,4 +49,9 @@ public class Constants
 	public static final String SKIN_LIBGDX_UI = "images-ui/uiskin.json"; // 3
 	public static final String SKIN_CANYONBUNNY_UI ="images-ui/canyonbunny-ui.json";
 	
+	// Number of carrots to spawn
+	public static final int CANE_SPAWN_MAX = 100;
+	// Spawn radius for carrots
+	public static final float CANE_SPAWN_RADIUS = 3.5f;
+	
 }

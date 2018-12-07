@@ -1,5 +1,7 @@
 package com.packtpub.libgdx.canyonbunny.screens;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -27,7 +29,15 @@ public class GameScreen extends AbstractGameScreen
 		if (!paused) {
 		// Update game world by the time that has passed
 		// since last rendered frame.
-		worldController.update(deltaTime);
+		try {
+			worldController.update(deltaTime);
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		}
 		// Sets the clear screen color to: Cornflower Blue
 		Gdx.gl.glClearColor(0x64 / 255.0f, 0x95 / 255.0f,0xed /

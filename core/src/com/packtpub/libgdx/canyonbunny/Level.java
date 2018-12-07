@@ -203,7 +203,7 @@ public class Level
 			gift.render(batch);
 			// Draw Feathers
 			for (Snowflake flake : flake)
-			flake.render(batch);	
+			flake.render(batch);
 			// Draw Clouds
 			clouds.render(batch);
 		}
